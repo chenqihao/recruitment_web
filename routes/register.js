@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-	res.render('login', {flag: 0, title: '注册界面'});
+	res.render('register', {flag: 0, title: '注册界面'});
 });
 
 router.post('/',function(req, res){

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title><%= title %></title>
-<link href="/stylesheets/login.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="javascripts/jquery.js"></script>
-<script type="text/javascript" src="javascripts/jquery_login.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title><%= title %></title>
+    <link href="/stylesheets/login.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="javascripts/jquery.js"></script>
+    <script type="text/javascript" src="javascripts/jquery_login.js"></script>
 </head>
-<body>
+<body background="images/timg.jpg">
 <div class="login_title">登录界面</div>
 <div class="login_box">
     <div class="login_type_select">
@@ -19,19 +19,20 @@
         <div class="login_admin login_type"><a><b>管理员登录</b></a></div>
     </div>
     <div class="login_box_body"">
-        <form id="login_form" action="/login" method="post">
-            <div class="input_box">
-                <input type="text" id="login_username" class="login_input" name="username" placeholder="用户名 / 邮箱" aria-required="true">
-                <div class="help_block_error"></div>
-            </div>
-            <div class="input_box">
-                <input type="password" id="login_password" class="login_input" name="password" placeholder="密码"aria-required="true">
-                <div class="help_block_error"></div>
-            </div>
-            <div class="box_button">
-                <button type="submit" class="btn_login" name="login_button">登录</button>
-            </div>
-        </form>
+        <!-- <form id="login_form" action="/login" method="post"> -->
+        <div class="input_box">
+            <input type="text" id="login_username" class="login_input" name="username" placeholder="用户名 / 邮箱" aria-required="true">
+        </div>
+        <div class="help_block_error error_username"></div>
+        <div class="input_box">
+            <input type="password" id="login_password" class="login_input" name="password" placeholder="密码"aria-required="true">
+        </div>
+        <div class="help_block_error error_password"></div>
+        <div class="box_button">
+            <button type="button" class="btn_login login_button">登录</button>
+        </div>
+        <div class="help_block_error"></div>
+        <!-- </form> -->
         <div class="box_button">
             <button type="button" class="btn_login register_button">注册新用户</button>
         </div>
@@ -42,10 +43,6 @@
     </div>
     <!-- 个人登录界面 -->
 </div>
-<!-- <script>
-    var failure = <%= flag %>;
-    if(failure == 1) document.getElementById("help_block_error").innerText = "登陆失败！";
-</script> -->
 <!-- <script type="text/javascript">
     $(document).ready(function(){
       $("#login_person").click(function(){

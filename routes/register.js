@@ -1,21 +1,79 @@
 var express = require('express');
-// var getRouter = express.Router();
-// var postRouter = express.Router();
+var crypto = require('crypto');
 var router = express.Router();
+var loginRegModel = require('../models/db.js');
 
 router.get('/', function(req, res, next) {
-	res.render('register', {flag: 0, title: '注册界面'});
+	res.render('register', {title: '注册界面'});
 });
 
 router.post('/',function(req, res){
-	if(req.body.username == 'hello' && req.body.password == 'world'){
-		res.cookie('authorized', req.body.username);
-		res.redirect('/index');
+	var md5 = crypto.createHash('md5');
+	var password = md5.update(req.body.password).digest('hex');
+	if(req.body.registerType == 'person'){
+		var registerData = {
+			username: req.body.username,
+			password: password,
+			email: req.body.email,
+			realname: req.body.realname,
+			IDnumber: req.body.IDnumber,
+			registerType: req.body.registerType
+		};
 	}else{
-		res.render('login', {flag: 1, title: '注册界面'});
+		var registerData = {
+			username: req.body.username,
+			password: password,
+			email: req.body.email,
+			companyname: req.body.companyname,
+			address: req.body.address,
+			registerType: req.body.registerType
+		};
 	}
+	loginRegModel.register(registerData, function(status){
+		if (status == 'ok'){
+			req.session.user = {
+				username: registerData.username,
+				usertype: registerData.registerType
+			};
+			res.json({status:status, flag:1});
+		}else if (status.code == 11000){
+			if (registerData.registerType == 'person'){
+				if (status.errmsg.indexOf('username') > 0){
+					res.json({status:'用户名已存在', flag:0, errKey: 'username'});
+				}else if (status.errmsg.indexOf('email') > 0){
+					res.json({status:'邮箱已存在', flag:0, errKey: 'email'});
+				}else if (status.errmsg.indexOf('IDnumber') > 0){
+					res.json({status:'身份证号已存在', flag:0, errKey: 'IDnumber'});
+				}
+			}else {
+				if (status.errmsg.indexOf('username') > 0){
+					res.json({status:'用户名已存在', flag:0, errKey: 'username'});
+				}else if (status.errmsg.indexOf('email') > 0){
+					res.json({status:'邮箱已存在', flag:0, errKey: 'email'});
+				}else if (status.errmsg.indexOf('companyname') > 0){
+					res.json({status:'公司名已存在', flag:0, errKey: 'companyname'});
+				}
+			}
+		}
+	});
 });
 
-// module.exports.get = getRouter;
-// module.exports.post = postRouter;
+
+router.get('/asd', function(req, res){
+	// console.log(req.session.user);
+	var md5 = crypto.createHash('md5');
+	var registerData = {
+		username: 'test2',
+		password: md5.update('123').digest('hex'),
+		email: 'test2@qq.com',
+		realname: '张三',
+		IDnumber: '123456789',
+		registerType: 'person'
+	}
+	loginRegModel.register(registerData, function(status){
+		res.json(status);
+	});
+});
+
+
 module.exports = router;

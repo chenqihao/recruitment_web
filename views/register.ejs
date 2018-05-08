@@ -1,11 +1,82 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+    <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="javascripts/jquery.js"></script>
+    <script type="text/javascript" src="javascripts/jquery_register.js"></script>
+</head>
+<body background="images/timg.jpg">
+    <div class="title">注册界面</div>
+    <div class="login_reg_box">
+        <div class="type_select_box">
+            <div class="register_type type_select" id="register_type_person"><a><b>个人注册</b></a></div>
+            <div class="register_type type_select" id="register_type_company"><a><b>企业注册</b></a></div>
+        </div>
+        <div class="box_body"">
+            <div class="input_box">
+                <input type="text" id="register_username" class="register input" name="username" placeholder="用户名" aria-required="true">
+            </div>
+            <div class="help_block_error error_username">
+            </div>
+            <!--用户名-->
+            <div class="input_box">
+                <input type="password" id="register_password" class="register input" name="password" placeholder="密码"aria-required="true">
+            </div>
+            <div class="help_block_error error_password"></div>
+            <!--密码-->
+            <div class="input_box">
+                <input type="password" id="register_password_confirm" class="register input" name="password" placeholder="确认密码"aria-required="true">
+            </div>
+            <div class="help_block_error error_password_confirm"></div>
+            <!--确认密码-->
+            <div class="input_box">
+                <input type="text" id="register_email" class="register input" name="email"placeholder="邮箱" aria-required="true">
+            </div>
+            <div class="help_block_error error_email">
+            </div>
+            <!--邮箱-->
+            <div class="input_box company_need_hide">
+                <input type="text" id="register_realname" class="register input" name="realname" placeholder="姓名" aria-required="true">
+            </div>
+            <div class="help_block_error error_realname company_need_hide">
+            </div>
+            <!--姓名-->
+            <div class="input_box company_need_hide">
+                <input type="text" id="register_IDnumber" class="register input" name="IDnumber" placeholder="身份证号" aria-required="true">
+            </div>
+            <div class="help_block_error error_IDnumber company_need_hide">
+            </div>
+            <!--身份证号-->
+            <div class="input_box person_need_hide">
+                <input type="text" id="register_companyname" class="register input" name="companyname" placeholder="公司名" aria-required="true">
+            </div>
+            <div class="help_block_error error_companyname person_need_hide">
+            </div>
+            <!--公司名-->
+            <div class="input_box person_need_hide">
+                <input type="text" id="register_address" class="register input" name="address" placeholder="公司地址" aria-required="true">
+            </div>
+            <div class="help_block_error error_address person_need_hide">
+            </div>
+            <!--公司地址-->
+            <div class="box_button">
+                <button type="button" class="btn register_button">注册</button>
+            </div>
+            <div class="help_block_error"></div>
+            <div class="box_button">
+                <button type="button" class="btn redirect_login_button">返回登录</button>
+            </div>
+            <!-- <div class="login_box_href">
+                <a href="/request_password_reset" style="color: white">忘记密码？</a>
+                <a href="/signup" style="color: white">注册新用户</a>
+            </div> -->
+        </div>
+        <!-- 个人登录界面 -->
+    </div>
+</body>
 </html>

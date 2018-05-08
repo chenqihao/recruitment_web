@@ -39,6 +39,9 @@ app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.get('/',function(req,res){
+  res.redirect('/index');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

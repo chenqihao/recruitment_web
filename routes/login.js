@@ -1,7 +1,7 @@
 var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
-var loginRegModel = require('../models/db.js');
+var accMgmtModel = require('../models/db.js');
 
 
 
@@ -19,14 +19,14 @@ router.post('/',function(req,res){
 	var loginData = {
 		username: req.body.username,
 		password: password,
-		loginType: req.body.loginType
+		usertype: req.body.usertype
 	};
-	// var loginType = req.body.loginType;
-	loginRegModel.login(loginData, function(status){
+	// var usertype = req.body.usertype;
+	accMgmtModel.login(loginData, function(status){
 		if (status == 'ok'){
 			req.session.user = {
 				username: loginData.username,
-				usertype: loginData.loginType
+				usertype: loginData.usertype
 			};
 			res.json({status:status, flag:1});
 		}else{

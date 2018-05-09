@@ -1,10 +1,5 @@
-// var script=document.createElement("script");
-// script.type="text/javascript";
-// script.src="jquery.js"
-//document.getElementByTagName('head')[0].appendChild(script);
-// alert("My First JavaScript");
 $(document).ready(function(){
-	login_type_str = 'person';
+	usertype_str = 'person';
 	$("#login_type_person").css({"font-size":"18px","color":"#0099FF","border-bottom":"1px solid #0099FF"});
 	$(".login_type").click(function(){
 		$(this).css({"font-size":"18px","color":"#0099FF","border-bottom":"1px solid #0099FF"});
@@ -12,43 +7,48 @@ $(document).ready(function(){
 		switch($(this).attr("id"))
 		{
 		case "login_type_person":
-			// $(".redirect_register_button").show();
 			$(".admin_need_hide").show();
-			login_type_str = 'person';
+			usertype_str = 'person';
 			break;
 		case "login_type_company":
-			// $(".redirect_register_button").show();
 			$(".admin_need_hide").show();
-			login_type_str = 'company';
+			usertype_str = 'company';
 			break;
 		case "login_type_admin":
-			// $(".redirect_register_button").hide();
 			$(".admin_need_hide").hide();
-			login_type_str = 'admin';
+			usertype_str = 'admin';
 			break;
 		}
 	});
 	$(".redirect_register_button").click(function(){
 		window.location.href = "register";
 	});
+	$(".redirect_resetpwd_button").click(function(){
+		window.location.href = "resetpwd";
+	});
 	$(".login_button").click(function(){
+		$(".help_block_error").text('');
 		var username = document.getElementById('login_username').value;
-		if (username.replace(/(^s*)|(s*$)/g, "").length == 0){
+		if (username.length == 0){
 			$(".error_username").text('用户名不能为空');
-			$(".help_block_error").not(".error_username").text('');
+			return;
+		}else if (username.search(/\s/g) != -1){
+			$(".error_username").text('用户名不能有空格');
 			return;
 		}
 		var password = document.getElementById('login_password').value;
-		if (password.replace(/(^s*)|(s*$)/g, "").length == 0){
+		if (password.length == 0){
 			$(".error_password").text('密码不能为空');
-			$(".help_block_error").not(".error_password").text('');
+			return;
+		}else if (password.search(/\s/g) != -1){
+			$(".error_password").text('密码不能有空格');
 			return;
 		}
 		var postUrl = '/login';
 		var postData = {
 			username: username,
 			password: password,
-			loginType: login_type_str,
+			usertype: usertype_str,
 		}
 		// alert(JSON.stringify(postData));
 		$.post(postUrl, postData, function(data, status){

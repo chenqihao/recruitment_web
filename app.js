@@ -11,6 +11,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
+var resetpwdRouter = require('./routes/resetpwd');
+var chgpwdRouter = require('./routes/chgpwd');
+var modinfoRouter = require('./routes/modinfo');
 
 
 var app = express();
@@ -39,6 +42,9 @@ app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/resetpwd', resetpwdRouter);
+app.use('/chgpwd', chgpwdRouter);
+app.use('/modinfo', modinfoRouter);
 app.get('/',function(req,res){
   res.redirect('/index');
 });

@@ -1,7 +1,7 @@
 var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
-var loginRegModel = require('../models/db.js');
+var accMgmtModel = require('../models/db.js');
 
 router.get('/', function(req, res, next) {
 	res.render('register', {title: '注册界面'});
@@ -10,14 +10,14 @@ router.get('/', function(req, res, next) {
 router.post('/',function(req, res){
 	var md5 = crypto.createHash('md5');
 	var password = md5.update(req.body.password).digest('hex');
-	if(req.body.registerType == 'person'){
+	if(req.body.usertype == 'person'){
 		var registerData = {
 			username: req.body.username,
 			password: password,
 			email: req.body.email,
 			realname: req.body.realname,
 			IDnumber: req.body.IDnumber,
-			registerType: req.body.registerType
+			usertype: req.body.usertype
 		};
 	}else{
 		var registerData = {
@@ -26,18 +26,19 @@ router.post('/',function(req, res){
 			email: req.body.email,
 			companyname: req.body.companyname,
 			address: req.body.address,
-			registerType: req.body.registerType
+			representative: req.body.representative,
+			usertype: req.body.usertype
 		};
 	}
-	loginRegModel.register(registerData, function(status){
+	accMgmtModel.register(registerData, function(status){
 		if (status == 'ok'){
 			req.session.user = {
 				username: registerData.username,
-				usertype: registerData.registerType
+				usertype: registerData.usertype
 			};
 			res.json({status:status, flag:1});
 		}else if (status.code == 11000){
-			if (registerData.registerType == 'person'){
+			if (registerData.usertype == 'person'){
 				if (status.errmsg.indexOf('username') > 0){
 					res.json({status:'用户名已存在', flag:0, errKey: 'username'});
 				}else if (status.errmsg.indexOf('email') > 0){
@@ -68,9 +69,9 @@ router.get('/asd', function(req, res){
 		email: 'test2@qq.com',
 		realname: '张三',
 		IDnumber: '123456789',
-		registerType: 'person'
+		usertype: 'person'
 	}
-	loginRegModel.register(registerData, function(status){
+	accMgmtModel.register(registerData, function(status){
 		res.json(status);
 	});
 });

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title><%= title %></title>
+    <link href="/stylesheets/acc_mgmt.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="javascripts/jquery.js"></script>
+    <script type="text/javascript" src="javascripts/jquery_resetpwd.js"></script>
+  </head>
+  <body background="images/timg.jpg">
+    <div class="title">找回密码</div>
+    <div class="acc_mgmt_box">
+      <div class="type_select_box">
+        <div class="resetpwd_type type_select" id="resetpwd_type_person"><a><b>个人用户</b></a></div>
+        <div class="resetpwd_type type_select" id="resetpwd_type_company"><a><b>企业用户</b></a></div>
+      </div>
+      <div class="box_body"">
+        <div class="input_box">
+          <input type="text" id="resetpwd_username" class="resetpwd input" name="username" placeholder="用户名" aria-required="true">
+        </div>
+        <div class="help_block_error error_username"></div>
+        <!--用户名-->
+        <div class="input_box">
+          <input type="text" id="resetpwd_email_confirm" class="resetpwd input" name="email_confirm" placeholder="请输入注册时的邮箱"aria-required="true">
+        </div>
+        <div class="help_block_error error_email_confirm"></div>
+        <!--邮箱-->
+        <div class="box_button">
+          <button type="button" class="btn resetpwd_button">确认</button>
+        </div>
+        <div class="help_block_error"></div>
+        <div class="box_button admin_need_hide">
+          <button type="button" class="btn redirect_login_button">返回登录</button>
+        </div>
+      </div>
+      <!-- 登录界面 -->
+    </div>
+  </body>
+</html>

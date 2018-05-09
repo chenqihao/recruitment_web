@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title><%= title %></title>
-    <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <link href="/stylesheets/acc_mgmt.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="javascripts/jquery.js"></script>
     <script type="text/javascript" src="javascripts/jquery_login.js"></script>
-</head>
-<body background="images/timg.jpg">
+  </head>
+  <body background="images/timg.jpg">
     <div class="title">登录界面</div>
-    <div class="login_reg_box">
-        <div class="type_select_box">
-            <div class="login_type type_select" id="login_type_person"><a><b>个人登录</b></a></div>
-            <div class="login_type type_select" id="login_type_company"><a><b>企业登录</b></a></div>
-            <div class="login_type type_select" id="login_type_admin"><a><b>管理员登录</b></a></div>
+    <div class="acc_mgmt_box">
+      <div class="type_select_box">
+        <div class="login_type type_select" id="login_type_person"><a><b>个人登录</b></a></div>
+        <div class="login_type type_select" id="login_type_company"><a><b>企业登录</b></a></div>
+        <div class="login_type type_select" id="login_type_admin"><a><b>管理员登录</b></a></div>
+      </div>
+      <div class="box_body"">
+        <div class="input_box">
+          <input type="text" id="login_username" class="login input" name="username" placeholder="用户名" aria-required="true">
         </div>
-        <div class="box_body"">
-            <div class="input_box">
-                <input type="text" id="login_username" class="login input" name="username" placeholder="用户名" aria-required="true">
-            </div>
-            <div class="help_block_error error_username"></div>
-            <!--用户名-->
-            <div class="input_box">
-                <input type="password" id="login_password" class="login input" name="password" placeholder="密码"aria-required="true">
-            </div>
-            <div class="help_block_error error_password"></div>
-            <!--密码-->
-            <div class="box_button">
-                <button type="button" class="btn login_button">登录</button>
-            </div>
-            <div class="help_block_error"></div>
-            <div class="box_button admin_need_hide">
-                <button type="button" class="btn redirect_register_button">注册新用户</button>
-            </div>
-            <!-- <div class="login_box_href">
-                <a href="/request_password_reset" style="color: white">忘记密码？</a>
-                <a href="/signup" style="color: white">注册新用户</a>
-            </div> -->
+        <div class="help_block_error error_username"></div>
+        <!--用户名-->
+        <div class="input_box">
+          <input type="password" id="login_password" class="login input" name="password" placeholder="密码"aria-required="true">
         </div>
-        <!-- 个人登录界面 -->
+        <div class="help_block_error error_password"></div>
+        <!--密码-->
+        <div class="box_button">
+          <button type="button" class="btn login_button">登录</button>
+        </div>
+        <div class="help_block_error"></div>
+        <div class="box_button admin_need_hide">
+          <button type="button" class="btn redirect_register_button">注册新用户</button>
+        </div>
+        <div class="help_block_error admin_need_hide"></div>
+        <div class="box_button admin_need_hide">
+          <button type="button" class="btn redirect_resetpwd_button">忘记密码？</button>
+        </div>
+      </div>
+      <!-- 登录界面 -->
     </div>
-</body>
+  </body>
 </html>

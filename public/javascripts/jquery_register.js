@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	register_type_str = 'person';
+	usertype_str = 'person';
 	isPswConfirm = false;
 	$("#register_type_person").css({"font-size":"18px","color":"#0099FF","border-bottom":"1px solid #0099FF"});
 	$(".person_need_hide").hide();
@@ -12,12 +12,12 @@ $(document).ready(function(){
 		case "register_type_person":
 			$(".person_need_hide").hide();
 			$(".company_need_hide").show();
-			register_type_str = 'person';
+			usertype_str = 'person';
 			break;
 		case "register_type_company":
 			$(".person_need_hide").show();
 			$(".company_need_hide").hide();
-			register_type_str = 'company';
+			usertype_str = 'company';
 			break;
 		}
 	});
@@ -42,62 +42,56 @@ $(document).ready(function(){
 	$("#register_password_confirm").focus(function(){
 		$(".error_password_confirm").text('');
 	});
-	$("#register_password").focus(function(){
-		$(".error_password").text('');
-	});
-	$("#register_username").focus(function(){
-		$(".error_username").text('');
-	});
-	$("#register_email").focus(function(){
-		$(".error_email").text('');
-	});
-	$("#register_realname").focus(function(){
-		$(".error_realname").text('');
-	});
-	$("#register_IDnumber").focus(function(){
-		$(".error_IDnumber").text('');
-	});
-	$("#register_address").focus(function(){
-		$(".error_address").text('');
-	});
-	$("#register_companyname").focus(function(){
-		$(".error_companyname").text('');
-	});
 	$(".register_button").click(function(){
+		$(".help_block_error").text('');
 		var username = document.getElementById('register_username').value;
-		if (username.replace(/(^s*)|(s*$)/g, "").length == 0){
+		if (username.length == 0){
 			$(".error_username").text('用户名不能为空');
-			$(".help_block_error").not(".error_username").text('');
+			return;
+		}else if (username.search(/\s/g) != -1){
+			$(".error_username").text('用户名不能有空格');
 			return;
 		}
 		var password = document.getElementById('register_password').value;
-		if (password.replace(/(^s*)|(s*$)/g, "").length == 0){
+		if (password.length == 0){
 			$(".error_password").text('密码不能为空');
-			$(".help_block_error").not(".error_password").text('');
+			return;
+		}else if (password.search(/\s/g) != -1){
+			$(".error_password").text('密码不能有空格');
 			return;
 		}
-		if (!isPswConfirm){
-			$(".error_password_confirm").text('未确认密码');
-			$(".help_block_error").not(".error_password_confirm").text('');
+		var confirmPassword = document.getElementById('register_password_confirm').value;
+		if (confirmPassword.length == 0){
+			$(".error_password_confirm").text('确认密码不能为空');
+			return;
+		}else if (confirmPassword.search(/\s/g) != -1){
+			$(".error_password_confirm").text('确认密码不能有空格');
+			return;
+		}
+		if(password != confirmPassword){
+			$(".error_password_confirm").text('两次输入的密码不相同');
 			return;
 		}
 		var email = document.getElementById('register_email').value;
-		if (email.replace(/(^s*)|(s*$)/g, "").length == 0){
+		if (email.length == 0){
 			$(".error_email").text('邮箱不能为空');
-			$(".help_block_error").not(".error_email").text('');
+			return;
+		}else if (email.search(/\s/g) != -1){
+			$(".error_email").text('邮箱不能有空格');
 			return;
 		}
-		if (register_type_str == 'person'){
+		if (usertype_str == 'person'){
 			var realname = document.getElementById('register_realname').value;
-			if (realname.replace(/(^s*)|(s*$)/g, "").length == 0){
+			if (realname.replace(/(^\s*)|(\s*$)/g, "").length == 0){
 				$(".error_realname").text('姓名不能为空');
-				$(".help_block_error").not(".error_realname").text('');
 				return;
 			}
 			var IDnumber = document.getElementById('register_IDnumber').value;
-			if (IDnumber.replace(/(^s*)|(s*$)/g, "").length == 0){
+			if (IDnumber.length == 0){
 				$(".error_IDnumber").text('身份证号不能为空');
-				$(".help_block_error").not(".error_IDnumber").text('');
+				return;
+			}else if (IDnumber.search(/\s/g) != -1){
+				$(".error_IDnumber").text('身份证号不能有空格');
 				return;
 			}
 			var postData = {
@@ -106,19 +100,22 @@ $(document).ready(function(){
 				email: email,
 				realname: realname,
 				IDnumber: IDnumber,
-				registerType: register_type_str
+				usertype: usertype_str
 			}
 		}else {
 			var companyname = document.getElementById('register_companyname').value;
-			if (companyname.replace(/(^s*)|(s*$)/g, "").length == 0){
+			if (companyname.replace(/(^\s*)|(\s*$)/g, "").length == 0){
 				$(".error_companyname").text('公司名不能为空');
-				$(".help_block_error").not(".error_companyname").text('');
+				return;
+			}
+			var representative = document.getElementById('register_representative').value;
+			if (representative.replace(/(^\s*)|(\s*$)/g, "").length == 0){
+				$(".error_representative").text('法人不能为空');
 				return;
 			}
 			var address = document.getElementById('register_address').value;
-			if (address.replace(/(^s*)|(s*$)/g, "").length == 0){
+			if (address.replace(/(^\s*)|(\s*$)/g, "").length == 0){
 				$(".error_address").text('公司地址不能为空');
-				$(".help_block_error").not(".error_address").text('');
 				return;
 			}
 			var postData = {
@@ -126,8 +123,9 @@ $(document).ready(function(){
 				password: password,
 				email: email,
 				companyname: companyname,
+				representative: representative,
 				address: address,
-				registerType: register_type_str
+				usertype: usertype_str
 			}
 		}
 		var postUrl = '/register';
@@ -136,7 +134,7 @@ $(document).ready(function(){
 			if (status == 'success'){
 				// alert(JSON.stringify(data));
 				if (data.flag == 0){
-					if (postData.registerType == 'person'){
+					if (postData.usertype == 'person'){
 						if (data.errKey == 'username'){
 							$(".error_username").text(data.status);
 						}else if (data.errKey == 'email'){

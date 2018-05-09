@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title><%= title %></title>
+    <link href="/stylesheets/acc_mgmt.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="javascripts/jquery.js"></script>
+    <script type="text/javascript" src="javascripts/jquery_chgpwd.js"></script>
+    <script>
+        var username = "<%= username %>";
+        var usertype = "<%= usertype %>";
+        var isResetPwd = "<%= isResetPwd %>";
+    </script>
+  </head>
+  <body background="images/timg.jpg">
+    <div class="title">更改密码</div>
+    <div class="acc_mgmt_box">
+      <div class="box_body"">
+        <div class="input_box chgpwd_need_hide">
+          <input type="password" id="chgpwd_oldpassword" class="chgpwd input" name="oldpassword" placeholder="旧密码"aria-required="true">
+        </div>
+        <div class="help_block_error error_oldpassword chgpwd_need_hide"></div>
+        <!--旧密码-->
+        <div class="input_box">
+          <input type="password" id="chgpwd_password" class="chgpwd input" name="password" placeholder="新密码"aria-required="true">
+        </div>
+        <div class="help_block_error error_password"></div>
+        <!--新密码-->
+        <div class="input_box">
+          <input type="password" id="chgpwd_password_confirm" class="chgpwd input" name="password_confirm" placeholder="确认密码"aria-required="true">
+        </div>
+        <div class="help_block_error error_password_confirm"></div>
+        <!--确认新密码-->
+        <div class="box_button">
+          <button type="button" class="btn chgpwd_button">确认更改</button>
+        </div>
+      </div>
+      <!-- 登录界面 -->
+    </div>
+  </body>
+</html>

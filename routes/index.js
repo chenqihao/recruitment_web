@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	if (req.session.user){
-		res.render('index', { title: 'welcome '+ req.session.user.username});
+		res.render('index', { title: '网络招聘系统'});
 	}else{
 		res.redirect('/login');
 	}

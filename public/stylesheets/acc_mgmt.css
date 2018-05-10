@@ -28,6 +28,7 @@ body {
 	font-weight: 300;
     text-align: center;
     color: #FFFFFF;
+    cursor: pointer;
 }
 .acc_mgmt_box {
 	width: 320px;
@@ -54,7 +55,7 @@ body {
 	-webkit-box-sizing:border-box; /* Safari */
 	width: 100%;
 	height: 100%;
-	border: 1px;
+	/*border: 1px;*/
 	padding: 4px 14px 4px 14px;
 	border-radius: 5px;
 	border: 2px solid #0099FF;
@@ -89,4 +90,38 @@ body {
 .login_box_href {
 	display: flex;
 	justify-content: space-between;
+}
+
+.radio_box {
+	width: 100%;
+	height: 34px;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+	/*border: 1px;*/
+	border-radius: 5px;
+	border: 2px solid #0099FF;
+	display: flex;
+}
+.radio_head {
+	width:fit-content;
+	width:-webkit-fit-content;
+	width:-moz-fit-content;
+	/*height: 100%;*/
+	background-color: white;
+	border-radius: 5px 0 0 5px;
+	font-size: 14px;
+	color: grey;
+	margin-left: 1px;
+	padding: 4px 0 4px 13px;
+	/*overflow: hidden;*/
+}
+.radio_body {
+	display: flex;
+}
+.radio_select {
+	width: 100%;
+	text-align: center;
+	padding: 4px 0 4px 0;
+	cursor: pointer;
 }

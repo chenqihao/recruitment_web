@@ -8,74 +8,95 @@
     <title><%= title %></title>
     <link href="/stylesheets/acc_mgmt.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="javascripts/jquery.js"></script>
-    <script type="text/javascript" src="javascripts/jquery_register.js"></script>
+    <script type="text/javascript" src="javascripts/jquery_modinfo.js"></script>
+    <script>
+      var username = "<%= infoData.username %>";
+      var usertype = "<%= infoData.usertype %>";
+      var email = "<%= infoData.email %>";
+      var realname = "<%= infoData.realname %>";
+      var IDnumber = "<%= infoData.IDnumber %>";
+      var sex = "<%= infoData.sex %>";
+      var age = "<%= infoData.age %>";
+      var representative = "<%= infoData.representative %>";
+      var companyname = "<%= infoData.companyname %>";
+      var address = "<%= infoData.address %>";
+    </script>
   </head>
   <body background="images/timg.jpg">
     <div class="title">修改信息</div>
     <div class="acc_mgmt_box">
-      <!-- <div class="type_select_box">
-        <div class="register_type type_select" id="register_type_person"><a><b>个人注册</b></a></div>
-        <div class="register_type type_select" id="register_type_company"><a><b>企业注册</b></a></div>
-      </div> -->
-      <div class="box_body"">
-        <div class="input_box resetpwd_need_hide">
-          <input type="text" id="register_username" class="register input" name="username" placeholder="用户名" aria-required="true">
+      <div class="box_body">
+        <div class="input_box">
+          <input type="text" id="modinfo_username" class="modinfo input" name="username"   disabled="disabled">
         </div>
-        <div class="help_block_error error_username resetpwd_need_hide">
+        <div class="help_block_error error_username">
         </div>
         <!--用户名-->
         <div class="input_box">
-          <input type="password" id="register_password" class="register input" name="password" placeholder="密码"aria-required="true">
+          <input type="text" id="modinfo_usertype" class="modinfo input" name="usertype" disabled="disabled">
         </div>
-        <div class="help_block_error error_password"></div>
-        <!--密码-->
+        <div class="help_block_error error_usertype"></div>
+        <!--用户类型-->
         <div class="input_box">
-          <input type="password" id="register_password_confirm" class="register input" name="password" placeholder="确认密码"aria-required="true">
-        </div>
-        <div class="help_block_error error_password_confirm"></div>
-        <!--确认密码-->
-        <div class="input_box">
-          <input type="text" id="register_email" class="register input" name="email"placeholder="邮箱" aria-required="true">
+          <input type="text" id="modinfo_email" class="modinfo input" name="email">
         </div>
         <div class="help_block_error error_email">
         </div>
         <!--邮箱-->
         <div class="input_box company_need_hide">
-          <input type="text" id="register_realname" class="register input" name="realname" placeholder="姓名" aria-required="true">
+          <input type="text" id="modinfo_realname" class="modinfo input" name="realname" disabled="disabled">
         </div>
         <div class="help_block_error error_realname company_need_hide">
         </div>
         <!--姓名-->
         <div class="input_box company_need_hide">
-          <input type="text" id="register_IDnumber" class="register input" name="IDnumber" placeholder="身份证号" aria-required="true">
+          <input type="text" id="modinfo_IDnumber" class="modinfo input" name="IDnumber" disabled="disabled">
         </div>
         <div class="help_block_error error_IDnumber company_need_hide">
         </div>
         <!--身份证号-->
+        <div class="radio_box company_need_hide">
+            <!-- <input type="text" id="modinfo_sex" class="modinfo input" name="sex"> -->
+            <div class="radio_head">性别：</div>
+            <div class="radio_body">
+              <script type="text/javascript">
+                $(".radio_body").width($(".radio_box").width() - $(".radio_head").outerWidth() - $(".radio_head").css("margin-left").replace("px",""));
+              </script>
+              <span class="modinfo radio_select" id="modinfo_sex_male" name="sex">男</span>
+              <span class="modinfo radio_select" id="modinfo_sex_female" name="sex">女</span>
+            </div>
+        </div>
+        <div class="help_block_error error_sex company_need_hide"></div>
+        <!--性别-->
+        <div class="input_box company_need_hide">
+          <input type="text" id="modinfo_age" class="modinfo input" name="age">
+        </div>
+        <div class="help_block_error error_age company_need_hide"></div>
+        <!--年龄-->
         <div class="input_box person_need_hide">
-          <input type="text" id="register_companyname" class="register input" name="companyname" placeholder="公司名" aria-required="true">
+          <input type="text" id="modinfo_companyname" class="modinfo input" name="companyname"  disabled="disabled">
         </div>
         <div class="help_block_error error_companyname person_need_hide">
         </div>
         <!--公司名-->
         <div class="input_box person_need_hide">
-          <input type="text" id="register_representative" class="register input" name="representative" placeholder="法人" aria-required="true">
+          <input type="text" id="modinfo_representative" class="modinfo input" name="representative" >
         </div>
         <div class="help_block_error error_representative person_need_hide">
         </div>
         <!--法人-->
-        <div class="input_box person_need_hide">
-          <input type="text" id="register_address" class="register input" name="address" placeholder="公司地址" aria-required="true">
+        <div class="input_box">
+          <input type="text" id="modinfo_address" class="modinfo input" name="address" >
         </div>
-        <div class="help_block_error error_address person_need_hide">
+        <div class="help_block_error error_address">
         </div>
-        <!--公司地址-->
+        <!--地址-->
         <div class="box_button">
-          <button type="button" class="btn register_button">注册</button>
+          <button type="button" class="btn modinfo_button">确认修改</button>
         </div>
         <div class="help_block_error"></div>
         <div class="box_button">
-          <button type="button" class="btn redirect_login_button">返回登录</button>
+          <button type="button" class="btn redirect_index_button">返回</button>
         </div>
       </div>
       <!-- 注册界面 -->

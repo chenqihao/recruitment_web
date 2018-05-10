@@ -82,4 +82,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+	$("#modinfo_button").click(function(){
+		window.location.href = "modinfo";
+	});
 });

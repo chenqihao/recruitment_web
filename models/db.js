@@ -189,10 +189,12 @@ exports.chgpwd = function(reqData, callback){
 };
 
 exports.modInfo = function(reqData, callback){
-	var updateData = req.Data;
-	delete updateData.usertype;
-	if (reqData.usertype == 'person'){
-		personModel.update({username:reqData.username}, reqData, function(err, data){
+	var usertype = reqData.usertype;
+	delete reqData.usertype;
+	// console.log(reqData);
+	if (usertype == 'person'){
+		// console.log(reqData);
+		personModel.update({username:reqData.username}, {"$set":reqData}, function(err, data){
 			if (err){
 				callback(err);
 			}else {
@@ -200,7 +202,7 @@ exports.modInfo = function(reqData, callback){
 			}
 		});
 	}else {
-		companyModel.update({username:reqData.username}, reqData, function(err, data){
+		companyModel.update({username:reqData.username}, {"$set":reqData}, function(err, data){
 			if (err){
 				callback(err);
 			}else {

@@ -24,6 +24,7 @@ router.post('/',function(req,res){
 	// var usertype = req.body.usertype;
 	accMgmtModel.login(loginData, function(status){
 		if (status == 'ok'){
+			console.log('1');
 			req.session.user = {
 				username: loginData.username,
 				usertype: loginData.usertype

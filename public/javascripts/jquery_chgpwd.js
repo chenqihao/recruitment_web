@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	isPswConfirm = false;
-	if (isResetPwd){
+	if (isResetPwd == 'true'){
 		$(".chgpwd_need_hide").hide();
 	}
 	$("#chgpwd_password_confirm").blur(function(){
@@ -40,7 +40,7 @@ $(document).ready(function(){
 			$(".error_password_confirm").text('两次输入的密码不相同');
 			return;
 		}
-		if (isResetPwd){
+		if (isResetPwd == 'true'){
 			var postData = {
 				username: username,
 				password: password,

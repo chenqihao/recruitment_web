@@ -4,12 +4,15 @@ var accMgmtModel = require('../models/db.js');
 
 router.get('/',function(req, res){
 	if (req.session.user){
+		if (req.session.user.usertype == 'admin'){
+			res.redirect('/404');
+		}
 		// console.log(req.session.user.usertype);
 		accMgmtModel.accInfo({
 			username: req.session.user.username,
 			usertype: req.session.user.usertype
 		},function(status){
-			if (status.err == null){
+			if (status.err == 'ok'){
 				var accinfoData = status;
 				accinfoData.usertype = req.session.user.usertype;
 				res.render('modinfo', {

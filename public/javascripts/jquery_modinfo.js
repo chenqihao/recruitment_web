@@ -11,11 +11,11 @@ $(document).ready(function(){
 		$("#modinfo_email").attr('placeholder', (email != "") ? ("邮箱："+email) : "邮箱");
 		$("#modinfo_realname").attr('placeholder', (realname != "") ? ("姓名："+realname) : "姓名");
 		$("#modinfo_IDnumber").attr('placeholder', (IDnumber != "") ? ("身份证号："+IDnumber) : "身份证号");
-		$("#modinfo_sex").attr('placeholder', (sex != "") ? ("性别："+sex) : "性别");
+		// $("#modinfo_sex").attr('placeholder', (sex != "") ? ("性别："+sex) : "性别");
 		if(sex == 'male'){
 			$("#modinfo_sex_male").css("background-color","#0099FF");
 		}else if (sex == 'female'){
-			$("#modinfo_sex_male").css("background-color","#0099FF");
+			$("#modinfo_sex_female").css("background-color","#0099FF");
 		}
 		$("#modinfo_age").attr('placeholder', (age != "") ? ("年龄："+age) : "年龄");
 		$("#modinfo_address").attr('placeholder', (address != "") ? ("个人住址："+address) : "个人住址");

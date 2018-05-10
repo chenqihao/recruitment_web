@@ -65,24 +65,3 @@ $(document).ready(function(){
 		});
 	});
 });
-
-$(document).ready(function(){
-	$("#test_button").click(function(){
-		// alert('1');
-		$.get('/index/cleanSession', function(data, status){
-			if (status == 'success'){
-				if(data.ret_code != 0){
-					alert(data.ret_msg);
-				}else{
-					alert(data.ret_msg + "，即将返回登录界面");
-					window.location.href = "index";
-				}
-			}else{
-				alert('clean failed');
-			}
-		});
-	});
-	$("#modinfo_button").click(function(){
-		window.location.href = "modinfo";
-	});
-});

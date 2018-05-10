@@ -61,7 +61,8 @@ $(document).ready(function(){
 					$.StandardPost('/chgpwd',{
 						username: postData.username,
 						usertype: postData.usertype,
-						isResetPwd: true});
+						isResetPwd: true
+					});
 				}
 			}else{
 				alert('post failed');

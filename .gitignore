@@ -17,6 +17,3 @@ sized/
 thumbs/
 _thumbs/
 */expressionengine/cache/*
-
-#myignore
-node_modules/

@@ -11,16 +11,16 @@ router.get('/',function(req, res){
 		accMgmtModel.accInfo({
 			username: req.session.user.username,
 			usertype: req.session.user.usertype
-		},function(status){
-			if (status.err == 'ok'){
-				var accinfoData = status;
+		},function(err, data){
+			if (err == 'ok'){
+				var accinfoData = data;
 				accinfoData.usertype = req.session.user.usertype;
 				res.render('modinfo', {
 					title:'修改信息',
 					infoData: accinfoData
 				});
 			}else {
-				res.json(status.err);
+				res.json(err);
 			}
 		});
 	}else{
@@ -39,10 +39,5 @@ router.post('/', function(req, res){
 		}
 	});
 });
-
-
-
-
-
 
 module.exports = router;

@@ -86,11 +86,11 @@ exports.companyModInfo = function(reqData, callback){
 exports.companyAccInfo = function(reqData, callback){
 	companyModel.findOne({username:reqData.username}, function(err, data){
 		if (err){
-			err.err = 'err';
-			callback(err);
+			// err.err = 'err';
+			callback(err, null);
 		}else {
-			data.err = 'ok';
-			callback(data);
+			// data.err = 'ok';
+			callback('ok', data);
 		}
 	});
 };

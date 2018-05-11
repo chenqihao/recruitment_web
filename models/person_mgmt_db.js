@@ -87,11 +87,11 @@ exports.personModInfo = function(reqData, callback){
 exports.personAccInfo = function(reqData, callback){
 	personModel.findOne({username:reqData.username}, function(err, data){
 		if (err){
-			err.err = 'err';
-			callback(err);
+			// err.err = 'err';
+			callback(err, null);
 		}else {
-			data.err = 'ok';
-			callback(data);
+			// data.err = 'ok';
+			callback('ok', data);
 		}
 	});
 };

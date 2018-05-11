@@ -30,6 +30,8 @@ exports.cfmEmail = function(reqData, callback){
 		personMgmt.personCfmEmail(reqData, callback);
 	}else if (reqData.usertype == 'company') {
 		companyMgmt.companyCfmEmail(reqData, callback);
+	}else {
+		callback('usertype error');
 	}
 };
 
@@ -38,6 +40,8 @@ exports.chgPwd = function(reqData, callback){
 		personMgmt.personChgPwd(reqData, callback);
 	}else if (reqData.usertype == 'company') {
 		companyMgmt.companyChgPwd(reqData, callback);
+	}else {
+		callback('usertype error');
 	}
 };
 
@@ -48,8 +52,10 @@ exports.modInfo = function(reqData, callback){
 	if (usertype == 'person'){
 		// console.log(reqData);
 		personMgmt.personModInfo(reqData, callback);
-	}else if (reqData.usertype == 'company') {
+	}else if (usertype == 'company') {
 		companyMgmt.companyModInfo(reqData, callback);
+	}else {
+		callback('usertype error');
 	}
 }
 
@@ -58,5 +64,10 @@ exports.accInfo = function(reqData, callback){
 		personMgmt.personAccInfo(reqData, callback);
 	}else if (reqData.usertype == 'company') {
 		companyMgmt.companyAccInfo(reqData, callback);
+	}else{
+		// var err = {
+		// 	err: 'usertype error'
+		// };
+		callback('usertype error', null);
 	}
 }

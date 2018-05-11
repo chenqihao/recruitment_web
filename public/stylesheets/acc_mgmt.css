@@ -3,7 +3,7 @@ body {
   height: 100%;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-repeat:no-repeat;
-  background-width: 100%;
+  /*background-size: 100%;*/
 }
 .title {
 	text-align: center;

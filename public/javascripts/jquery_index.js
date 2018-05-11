@@ -1,6 +1,11 @@
 $(document).ready(function(){
-	if (usertype == 'admin'){
+	if (usertype == 'person'){
+		$(".person_need_show").show();
+	}else if(usertype == 'company'){
+		$(".company_need_show").show();
+	}else {
 		$(".admin_need_hide").hide();
+		$(".admin_need_show").show();
 	}
 	$(".logout_area").click(function(){
 		// alert('1');
@@ -31,6 +36,9 @@ $(document).ready(function(){
 			isResetPwd: false
 		};
 		$.StandardPost(postUrl,postData);
+	});
+	$("#redirect_resume_button").click(function(){
+		window.location.href = 'resume';
 	});
 });
 

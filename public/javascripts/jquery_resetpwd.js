@@ -47,17 +47,6 @@ $(document).ready(function(){
 				if (data.flag == 0){
 					$(".error_email_confirm").text(data.status);
 				}else{
-					// $.post('/chgpwd', {
-					// 	username: postData.username,
-					// 	usertype: postData.usertype,
-					// 	isResetPwd: true
-					// }, function(data, status){
-					// 	if (status == 'success'){
-					// 		window.location.href = "chgpwd";
-					// 	}else{
-					// 		alert('post failed');
-					// 	}
-					// });
 					$.StandardPost('/chgpwd',{
 						username: postData.username,
 						usertype: postData.usertype,

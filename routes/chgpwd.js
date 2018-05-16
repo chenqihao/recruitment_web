@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
-var accMgmtModel = require('../models/db.js');
+var accMgmtModel = require('../models/account_db.js');
 
 router.post('/', function(req, res){
 	// console.log(req.body);

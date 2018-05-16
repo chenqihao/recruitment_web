@@ -6,8 +6,9 @@ router.get('/', function(req, res, next) {
 	if (req.session.user){
 		res.render('index', {
 		title: '网络招聘系统',
-		username: req.session.user.username,
-		usertype: req.session.user.usertype
+		userdata: req.session.user,
+		// username: req.session.user.username,
+		// usertype: req.session.user.usertype
 	});
 	}else{
 		res.redirect('/login');

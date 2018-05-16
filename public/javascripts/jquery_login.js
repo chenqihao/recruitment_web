@@ -20,11 +20,16 @@ $(document).ready(function(){
 			break;
 		}
 	});
+	$("body").keydown(function() {
+		if (event.keyCode == "13") {//keyCode=13是回车键
+			$('.login_button').click();
+		}
+	});
 	$(".redirect_register_button").click(function(){
-		window.location.href = "register";
+		window.location.href = "/register";
 	});
 	$(".redirect_resetpwd_button").click(function(){
-		window.location.href = "resetpwd";
+		window.location.href = "/resetpwd";
 	});
 	$(".login_button").click(function(){
 		$(".help_block_error").text('');
@@ -57,7 +62,7 @@ $(document).ready(function(){
 				if (data.flag == 0){
 					$(".error_password").text(data.status);
 				}else{
-					window.location.href = "index";
+					window.location.href = "/index";
 				}
 			}else{
 				alert('post failed');

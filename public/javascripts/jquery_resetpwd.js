@@ -15,7 +15,7 @@ $(document).ready(function(){
 		}
 	});
 	$(".redirect_login_button").click(function(){
-		window.location.href = "login";
+		window.location.href = "/login";
 	});
 	$(".resetpwd_button").click(function(){
 		$(".help_block_error").text('');

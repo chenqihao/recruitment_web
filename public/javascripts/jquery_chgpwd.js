@@ -71,7 +71,9 @@ $(document).ready(function(){
 					$(".error_oldpassword").text('原密码错误');
 				}else if (data.flag == 1){
 					alert('更改密码成功，即将跳转到主页');
-					window.location.href = "index";
+					window.location.href = "/index";
+				}else {
+					alert(data.status);
 				}
 			}else{
 				alert('post failed');

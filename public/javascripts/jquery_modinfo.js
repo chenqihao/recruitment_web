@@ -77,7 +77,7 @@ $(document).ready(function(){
 	});
 
 	$(".redirect_index_button").click(function(){
-		window.location.href = 'index';
+		window.location.href = '/index';
 		// alert(username+usertype+email+realname+IDnumber+sex+age+representative+companyname+address);
 	});
 	$("#modinfo_sex_male").click(function(){
@@ -129,10 +129,13 @@ $(document).ready(function(){
 		$.post(postUrl, postData, function(data, status){
 			if(status == 'success'){
 				if (data.flag == 0){
-					alert('修改失败：' + data.status);
+					for (var errPath in data.status.errors){
+						$(".error_"+errPath).text(data.status.errors[errPath].message);
+					}
+					// alert('修改失败：' + data.status);
 				}else {
 					alert('信息修改成功，即将跳转到主页');
-					window.location.href = "index";
+					window.location.href = "/index";
 				}
 			}else {
 				alert('post failed');

@@ -5,6 +5,7 @@ $(document).ready(function(){
 	$(".person_need_hide").hide();
 	$(".company_need_hide").show();
 	$(".register_type").click(function(){
+		$(".help_block_error").text('');
 		$(this).css({"font-size":"18px","color":"#0099FF","border-bottom":"1px solid #0099FF"});
 		$(".register_type").not(this).css({"font-size":"16px","color":"white","border-bottom":"1px solid white"});
 		switch($(this).attr("id"))
@@ -22,7 +23,7 @@ $(document).ready(function(){
 		}
 	});
 	$(".redirect_login_button").click(function(){
-		window.location.href = "login";
+		window.location.href = "/login";
 	});
 	$("#register_username").blur(function(){
 		var username = this.value;
@@ -153,9 +154,13 @@ $(document).ready(function(){
 					}
 				}else if (data.flag == 1){
 					alert('注册成功，即将跳转到主页');
-					window.location.href = "index";
+					window.location.href = "/index";
 				}else{
-					alert(data.status);
+					for (var errPath in data.status.errors){
+						$(".error_"+errPath).text(data.status.errors[errPath].message);
+						// break;
+					}
+					//alert(JSON.stringify(data.status));
 				}
 			}else{
 				alert('post failed');

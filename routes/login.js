@@ -1,7 +1,7 @@
 var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
-var accMgmtModel = require('../models/db.js');
+var accMgmtModel = require('../models/account_db.js');
 
 
 
@@ -24,7 +24,7 @@ router.post('/',function(req,res){
 	// var usertype = req.body.usertype;
 	accMgmtModel.login(loginData, function(status){
 		if (status == 'ok'){
-			console.log('1');
+			// console.log('1');
 			req.session.user = {
 				username: loginData.username,
 				usertype: loginData.usertype

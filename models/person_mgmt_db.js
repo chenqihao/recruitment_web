@@ -3,14 +3,51 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 var personSchema = new Schema({
-	username:{type:String, unique:true, select:true},
-	password:{type:String},
-	email:{type:String, unique:true},
-	realname:{type:String},
-	IDnumber:{type:String, unique:true},
-	sex:{type:String, default:'secret'},
-	age:{type:String},
-	address:{type:String},
+	username:{
+		type:String,
+		unique:true,
+		select:true,
+		required:[true, '用户名不能为空'],
+		match:[/^[a-zA-Z](\w)*$/, '用户名须以字母开始，且只能包含字母数字下划线']
+	},
+	password:{
+		type:String,
+		required:[true, '密码不能为空'],
+		match:[/^(\S)*$/, '密码不能包含空格'],
+	},
+	email:{
+		type:String,
+		unique:true,
+		required:[true, '邮箱不能为空'],
+		trim:true,
+		match:[/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$/, '请输入正确的邮箱']
+	},
+	realname:{
+		type:String,
+		unique:true,
+		required:[true,'姓名不能为空'],
+		trim:true,
+	},
+	IDnumber:{
+		type:String,
+		unique:true,
+		required:[true,'身份证号不能为空'],
+		trim:true,
+		match:[/(^\d{15}$)|(^\d{17}(\d|X|x)$)/, '请输入正确的身份证号'],
+	},
+	sex:{
+		type:String,
+		default: 'secret',
+		enum:['male', 'female', 'secret'],
+	},
+	age:{
+		type:Number,
+		min:[18, '输入年龄过小'],
+		max:[60, '输入年龄过大'],
+	},
+	address:{
+		type:String,
+	},
 });
 
 personSchema.index({username:1});
@@ -65,7 +102,7 @@ exports.personCfmEmail = function(reqData, callback){
 };
 
 exports.personChgPwd = function(reqData, callback){
-	personModel.update({username:reqData.username}, {password: reqData.password}, function(err, data){
+	personModel.update({username:reqData.username}, {$set: {password: reqData.password}}, {runValidators: true}, function(err, data){
 		if (err){
 			callback(err);
 		}else {
@@ -75,7 +112,7 @@ exports.personChgPwd = function(reqData, callback){
 };
 
 exports.personModInfo = function(reqData, callback){
-	personModel.update({username:reqData.username}, {"$set":reqData}, function(err, data){
+	personModel.update({username:reqData.username}, {$set: reqData}, {runValidators: true}, function(err, data){
 		if (err){
 			callback(err);
 		}else {

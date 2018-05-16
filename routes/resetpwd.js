@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var accMgmtModel = require('../models/db.js');
+var accMgmtModel = require('../models/account_db.js');
 
 
 router.get('/', function(req, res, next) {

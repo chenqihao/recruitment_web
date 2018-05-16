@@ -1,12 +1,4 @@
 $(document).ready(function(){
-	if (usertype == 'person'){
-		$(".person_need_show").show();
-	}else if(usertype == 'company'){
-		$(".company_need_show").show();
-	}else {
-		$(".admin_need_hide").hide();
-		$(".admin_need_show").show();
-	}
 	$(".logout_area").click(function(){
 		// alert('1');
 		$.get('/index/cleanSession', function(data, status){
@@ -15,7 +7,7 @@ $(document).ready(function(){
 					alert(data.ret_msg);
 				}else{
 					alert(data.ret_msg + "，即将返回登录界面");
-					window.location.href = "index";
+					window.location.href = "/index";
 				}
 			}else{
 				alert('clean failed');
@@ -23,7 +15,7 @@ $(document).ready(function(){
 		});
 	});
 	$(".modinfo_area").click(function(){
-		window.location.href = "modinfo";
+		window.location.href = "/modinfo";
 	});
 	$(".username_area").click(function(){
 		$(".toggle_box").slideToggle(400);
@@ -31,14 +23,14 @@ $(document).ready(function(){
 	$(".chgpwd_area").click(function(){
 		var postUrl = '/chgpwd';
 		var postData = {
-			username: username,
-			usertype: usertype,
+			username: $(".hidden_username").val(),
+			usertype: $(".hidden_usertype").val(),
 			isResetPwd: false
 		};
 		$.StandardPost(postUrl,postData);
 	});
-	$("#redirect_resume_button").click(function(){
-		window.location.href = 'resume';
+	$(".redirect_resume_button").click(function(){
+		window.location.href = '/person/resumelist';
 	});
 });
 

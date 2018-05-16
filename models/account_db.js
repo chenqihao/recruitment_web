@@ -11,6 +11,8 @@ exports.login = function(reqData, callback){
 		companyMgmt.companyLogin(reqData, callback);
 	}else if (reqData.usertype == 'admin'){
 		adminMgmt.adminLogin(reqData, callback);
+	}else {
+		callback('usertype error');
 	}
 };
 
@@ -22,6 +24,8 @@ exports.register = function(reqData, callback){
 		companyMgmt.companyRegister(reqData, callback);
 	}else if (reqData.usertype == 'admin'){
 		adminMgmt.adminRegister(reqData, callback);
+	}else {
+		callback('usertype error');
 	}
 };
 
@@ -65,9 +69,6 @@ exports.accInfo = function(reqData, callback){
 	}else if (reqData.usertype == 'company') {
 		companyMgmt.companyAccInfo(reqData, callback);
 	}else{
-		// var err = {
-		// 	err: 'usertype error'
-		// };
 		callback('usertype error', null);
 	}
 }

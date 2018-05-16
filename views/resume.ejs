@@ -9,6 +9,7 @@
     <link href="/stylesheets/index.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="../javascripts/jquery.js"></script>
     <script type="text/javascript" src="../javascripts/jquery_index.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_resume.js"></script>
   </head>
   <body>
     <div class="header">
@@ -26,22 +27,14 @@
     </div>
     <div class="nav_bar">
       <div class="nav_bar_blank"></div>
-      <% if (userdata.usertype == 'person'){ %>
-      <div class="nav_bar_select redirect_resume_button">简历管理</div>
+      <div class="nav_bar_select redirect_resume_button" style="border:0; border-bottom:2px solid white; color:white;">简历管理</div>
       <div class="nav_bar_select redirect_jobsearch_button">职位搜索</div>
       <div class="nav_bar_select redirect_apprecord_button">申请记录</div>
-      <% }else if (userdata.usertype == 'company') { %>
-      <div class="nav_bar_select redirect_jobmgmt_button">职位管理</div>
-      <div class="nav_bar_select redirect_appmgmt_button">应聘管理</div>
-      <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
-      <% }else { %>
-      <div class="nav_bar_select redirect_infomgmt_button">信息管理</div>
-      <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
-      <div class="nav_bar_select redirect_search_button">检索</div>
-      <% } %>
     </div>
     <div class="body">
-      <div class="body_msg"><%= userdata.username %>，欢迎来到网络招聘系统</div>
+      <div class="resume_box">
+        
+      </div>
     </div>
     <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
   </body>

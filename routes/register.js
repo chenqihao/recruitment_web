@@ -1,7 +1,7 @@
 var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
-var accMgmtModel = require('../models/db.js');
+var accMgmtModel = require('../models/account_db.js');
 
 router.get('/', function(req, res, next) {
 	res.render('register', {title: '注册界面'});
@@ -55,6 +55,10 @@ router.post('/',function(req, res){
 					res.json({status:'公司名已存在', flag:0, errKey: 'companyname'});
 				}
 			}
+		}else {
+			res.json({status:status, flag:2});
+			// console.log('register post test');
+			// console.log(status.errors);
 		}
 	});
 });

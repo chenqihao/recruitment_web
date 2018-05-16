@@ -3,12 +3,40 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 var companySchema = new Schema({
-	username:{type:String, unique:true, select:true},
-	password:{type:String},
-	email:{type:String, unique:true},
-	companyname:{type:String, unique:true},
-	representative:{type:String},
-	address:{type:String},
+	username:{
+		type:String,
+		unique:true,
+		select:true,
+		required:[true, '用户名不能为空'],
+		match:[/^[a-zA-Z](\w)*$/, '用户名须以字母开始，且只能包含字母数字下划线']
+	},
+	password:{
+		type:String,
+		required:[true, '密码不能为空'],
+		match:[/^(\S)*$/, '密码不能包含空格'],
+	},
+	email:{
+		type:String,
+		unique:true,
+		required:[true, '邮箱不能为空'],
+		match:[/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$/, '请输入正确的邮箱']
+	},
+	companyname:{
+		type:String,
+		unique:true,
+		required:[true,'公司名不能为空'],
+		trim:true,
+	},
+	representative:{
+		type:String,
+		required:[true,'法人不能为空'],
+		trim:true,
+	},
+	address:{
+		type:String,
+		required:[true,'公司地址不能为空'],
+		trim:true,
+	},
 });
 
 companySchema.index({username:1});
@@ -64,7 +92,7 @@ exports.companyCfmEmail = function(reqData, callback){
 };
 
 exports.companyChgPwd = function(reqData, callback){
-	companyModel.update({username:reqData.username}, {password: reqData.password}, function(err, data){
+	companyModel.update({username:reqData.username}, {$set: {password: reqData.password}}, {runValidators: true}, function(err, data){
 		if (err){
 			callback(err);
 		}else {
@@ -74,7 +102,7 @@ exports.companyChgPwd = function(reqData, callback){
 };
 
 exports.companyModInfo = function(reqData, callback){
-	companyModel.update({username:reqData.username}, {"$set":reqData}, function(err, data){
+	companyModel.update({username:reqData.username}, {$set: reqData}, {runValidators: true}, function(err, data){
 		if (err){
 			callback(err);
 		}else {

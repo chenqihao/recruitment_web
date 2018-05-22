@@ -2,7 +2,21 @@ var express = require('express');
 var crypto = require('crypto');
 var router = express.Router();
 var accMgmtModel = require('../models/account_db.js');
+// var asdModel = require('../models/others.js');
 
+router.get('/asd', function(req,res){
+	asdModel.asd('020000', function(data){
+		console.log(data);
+		res.json(data);
+	});
+});
+
+router.get('/fgh', function(req,res){
+	asdModel.fgh('020000', function(data){
+		console.log(data);
+		res.json(data);
+	});
+});
 
 
 router.get('/', function(req, res, next) {

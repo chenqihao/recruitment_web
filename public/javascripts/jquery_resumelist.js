@@ -16,13 +16,40 @@ $(document).ready(function(){
 		}
 	});
 	$(".default_select").click(function(){
-		if($(this).text() == '是'){
-			$(this).css("background-color", "#BBBBBB").text('否');
-		}else {
+		if($(this).text() == '否'){
+			var _id = $(this).parent().siblings(".hidden_resumeId").val();
 			$(this).css("background-color", "rgb(0,188,212)").text('是');
+			$(this).parent().next().children().css("background-color", "rgb(0,188,212)").text('是');
 			$(".default_select").not(this).css("background-color", "#BBBBBB").text('否');
+			$(".default_select").not(this).parent().next().children().css("background-color", "#BBBBBB").text('否');
+			$.post('/person/modify_default', {_id:_id}, function(data, status){
+				if (status == 'success'){
+					if (data.flag == 0){
+						alert(JSON.stringify(data.status));
+					}
+				}
+			});
 		}
 	});
+
+	$(".public_select").click(function(){
+		if ($(this).parent().prev().children().text() == '是'){
+			var _id = $(this).parent().siblings(".hidden_resumeId").val();
+			if($(this).text() == '是'){
+				$(this).css("background-color", "#BBBBBB").text('否');
+			}else {
+				$(this).css("background-color", "rgb(0,188,212)").text('是');
+			}
+			$.post('/person/modify_public', {_id:_id}, function(data, status){
+				if (status == 'success'){
+					if (data.flag == 0){
+						alert(JSON.stringify(data.status));
+					}
+				}
+			});
+		}
+	});
+
 	$(".list_btn").click(function(){
 		window.location.href = "/person/create_resume";
 	});

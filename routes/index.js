@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var staticModel = require('../models/static_db.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,4 +26,35 @@ router.get('/cleanSession', function(req, res, next) {
 		}
 	});
 });
+
+router.post('/get_function', function(req, res){
+	staticModel.getFunction(req.body.number, function(err, data){
+		if (err){
+			res.json({status:err, flag:0});
+		}else {
+			res.json({status:data, flag:1})
+		}
+	});
+});
+
+router.post('/get_job', function(req, res){
+	staticModel.getJob(req.body.number, function(err, data){
+		if (err){
+			res.json({status:err, flag:0});
+		}else {
+			res.json({status:data, flag:1})
+		}
+	});
+});
+
+router.post('/get_city', function(req, res){
+	staticModel.getCity(req.body.number, function(err, data){
+		if (err){
+			res.json({status:err, flag:0});
+		}else {
+			res.json({status:data, flag:1})
+		}
+	});
+});
+
 module.exports = router;

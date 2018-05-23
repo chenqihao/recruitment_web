@@ -49,10 +49,10 @@ var resumeSchema = new Schema({
 		max:[60, '输入年龄过大'],
 		required:[true, '年龄不能为空'],
 	},
-	address:{
+	location:{
 		type:String,
-		required:[true, '请选择居住地'],
-		match:[/^(0[1-9]|[1-9]\d){2}00$/, '请确认居住地无误'],
+		required:[true, '请选择所在地'],
+		match:[/^(0[1-9]|[1-9]\d){2}00$/, '请确认所在地无误'],
 	},
 	job:{
 		type:String,

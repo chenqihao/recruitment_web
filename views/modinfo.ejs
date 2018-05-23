@@ -20,6 +20,7 @@
       var representative = "<%= infoData.representative %>";
       var companyname = "<%= infoData.companyname %>";
       var address = "<%= infoData.address %>";
+      var companytype = "<%= infoData.companytype %>";
     </script>
   </head>
   <body background="images/timg.jpg">
@@ -79,6 +80,23 @@
         <div class="help_block_error error_companyname person_need_hide">
         </div>
         <!--公司名-->
+        <div class="select_box person_need_hide">
+          <div class="select_head">公司类型：</div>
+            <select class="select_body" id="modinfo_companytype" style="color: grey">
+              <option value=""></option>
+              <option value="1">国企</option>
+              <option value="2">事业单位</option>
+              <option value="3">上市公司</option>
+              <option value="4">民营公司</option>
+              <option value="5">外资</option>
+            </select>
+            <script type="text/javascript">
+              $(".select_body").width($(".select_box").width() - $(".select_head").outerWidth() - $(".select_head").css("margin-left").replace("px",""));
+            </script>
+        </div>
+        <div class="help_block_error error_companytype person_need_hide">
+        </div>
+        <!-- 公司类型 -->
         <div class="input_box person_need_hide">
           <input type="text" id="modinfo_representative" class="modinfo input" name="representative" >
         </div>

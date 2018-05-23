@@ -32,6 +32,9 @@ $(document).ready(function(){
 	$(".redirect_resume_button").click(function(){
 		window.location.href = '/person/resumelist';
 	});
+	$(".redirect_jobmgmt_button").click(function(){
+		window.location.href = '/company/offerlist';
+	});
 });
 
 $.extend({
@@ -52,3 +55,60 @@ $.extend({
         document.body.removeChild(form[0]);
     }
 });
+
+function industryChange(number){
+	$.post('/index/get_function', {number:number}, function(data, status){
+		if (status == 'success'){
+			if (data.flag == '1'){
+				var str = '<option value selected="selected"></option>';
+				for (var i in data.status){
+					str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
+				}
+				$(".select_function").empty().append(str);
+				$(".select_job").empty();
+			}else {
+				alert(data.status);
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+function functionChange(number){
+	$.post('/index/get_job', {number:number}, function(data, status){
+		if (status == 'success'){
+			if (data.flag == '1'){
+				var str = '<option value selected="selected"></option>';
+				for (var i in data.status){
+					str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
+				}
+				$(".select_job").empty().append(str);
+			}else {
+				alert(data.status);
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+function provinceChange(number){
+	$.post('/index/get_city', {number:number}, function(data, status){
+		if (status == 'success'){
+			if (data.flag == '1'){
+				var str = '<option value selected="selected"></option>';
+				for (var i in data.status){
+					str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
+				}
+				$(".select_city").empty().append(str);
+			}else {
+				alert(data.status);
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+

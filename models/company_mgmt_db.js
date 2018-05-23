@@ -27,6 +27,12 @@ var companySchema = new Schema({
 		required:[true,'公司名不能为空'],
 		trim:true,
 	},
+	companytype:{
+		type:Number,
+		required:[true, '请选择公司类型'],
+		min:[1, '请确认类型无误'],
+		max:[5, '请确认类型无误'],
+	},
 	representative:{
 		type:String,
 		required:[true,'法人不能为空'],
@@ -64,6 +70,7 @@ exports.companyRegister = function(reqData, callback){
 		password:reqData.password,
 		email: reqData.email,
 		companyname: reqData.companyname,
+		companytype: reqData.companytype,
 		representative: reqData.representative,
 		address: reqData.address,
 	}, function(err, data){

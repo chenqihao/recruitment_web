@@ -25,6 +25,7 @@ $(document).ready(function(){
 		$("#modinfo_usertype").attr('placeholder', (usertype == 'person') ? "用户类型：个人用户" : "用户类型：企业用户");
 		$("#modinfo_email").attr('placeholder', (email != "") ? ("邮箱："+email) : "邮箱");
 		$("#modinfo_companyname").attr('placeholder', (companyname != "") ? ("公司名："+companyname) : "公司名");
+		$("#modinfo_companytype").val(companytype);
 		$("#modinfo_representative").attr('placeholder', (representative != "") ? ("法人："+representative) : "法人");
 		$("#modinfo_address").attr('placeholder', (address != "") ? ("公司地址："+address) : "公司地址");
 	}
@@ -120,6 +121,7 @@ $(document).ready(function(){
 				username: username,
 				usertype: usertype,
 				email: email,
+				companytype: $("#modinfo_companytype").val(),
 				representative: representative,
 				address: address
 			}

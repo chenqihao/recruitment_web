@@ -25,6 +25,7 @@ router.post('/',function(req, res){
 			password: password,
 			email: req.body.email,
 			companyname: req.body.companyname,
+			companytype: req.body.companytype,
 			address: req.body.address,
 			representative: req.body.representative,
 			usertype: req.body.usertype

@@ -104,13 +104,10 @@
               <option value="810000">香港特别行政区</option>
               <option value="820000">澳门特别行政区</option>
             </select>
-            <script>
-              $(".select_province").val("330000");
-            </script>
             <select class="resume select_half select_city">
               <option value selected="selected"></option>
             </select>
-            <div class="help_block_error error_address">&nbsp;</div>
+            <div class="help_block_error error_location">&nbsp;</div>
           </div>
         </div>
         <div class="input_line">
@@ -149,7 +146,7 @@
         </div>
         <div class="input_line">
           <div class="input_box">
-            <div class="input_text"><span style="color: black">期望薪资(k)</span><span style="color: red">*</span></div>
+            <div class="input_text"><span style="color: black">薪资(k/月)</span><span style="color: red">*</span></div>
             <input type="text" id="resume_salary_min" class="resume input input_small" name="salary_min"
             value="<% if (resumeData.salary){ %> <%= resumeData.salary[0] %> <%}%>" >
             <div class="input_text input_text_small"><span style="color: black">~</span></div>
@@ -300,15 +297,15 @@
     </div>
     <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
     <script>
-      $(".select_province").val("<%= resumeData.address %>".slice(0, 2)+"0000");
-      $.post('/index/get_city', {number:"<%= resumeData.address %>".slice(0, 2)+"0000"}, function(data, status){
+      $(".select_province").val("<%= resumeData.location %>".slice(0, 2)+"0000");
+      $.post('/index/get_city', {number:"<%= resumeData.location %>".slice(0, 2)+"0000"}, function(data, status){
         if (status == 'success'){
           if (data.flag == '1'){
             var str = '<option value selected="selected"></option>';
             for (var i in data.status){
               str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
             }
-            $(".select_city").empty().append(str).val("<%= resumeData.address %>");
+            $(".select_city").empty().append(str).val("<%= resumeData.location %>");
           }else {
             alert(data.status);
           }

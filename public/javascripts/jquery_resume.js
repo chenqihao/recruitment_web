@@ -1,58 +1,3 @@
-function industryChange(number){
-	$.post('/index/get_function', {number:number}, function(data, status){
-		if (status == 'success'){
-			if (data.flag == '1'){
-				var str = '<option value selected="selected"></option>';
-				for (var i in data.status){
-					str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
-				}
-				$(".select_function").empty().append(str);
-				$(".select_job").empty();
-			}else {
-				alert(data.status);
-			}
-		}else {
-			alert('post failed');
-		}
-	});
-};
-
-function functionChange(number){
-	$.post('/index/get_job', {number:number}, function(data, status){
-		if (status == 'success'){
-			if (data.flag == '1'){
-				var str = '<option value selected="selected"></option>';
-				for (var i in data.status){
-					str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
-				}
-				$(".select_job").empty().append(str);
-			}else {
-				alert(data.status);
-			}
-		}else {
-			alert('post failed');
-		}
-	});
-};
-
-function provinceChange(number){
-	$.post('/index/get_city', {number:number}, function(data, status){
-		if (status == 'success'){
-			if (data.flag == '1'){
-				var str = '<option value selected="selected"></option>';
-				for (var i in data.status){
-					str += '<option value="' + data.status[i].number + '">' + data.status[i].name + '</option>';
-				}
-				$(".select_city").empty().append(str);
-			}else {
-				alert(data.status);
-			}
-		}else {
-			alert('post failed');
-		}
-	});
-};
-
 function backToResumeList(){
 	window.location.href = "/person/resumelist";
 };
@@ -67,7 +12,7 @@ function resumeModSubmit(){
 		email:$("#resume_email").val(),
 		sex:$(".select_sex option:selected").val(),
 		age:$("#resume_age").val(),
-		address:$(".select_city option:selected").val(),
+		location:$(".select_city option:selected").val(),
 		job:$(".select_job option:selected").val(),
 		salary:JSON.stringify([$("#resume_salary_min").val(), $("#resume_salary_max").val()]),
 		job_type:$(".select_job_type option:selected").val(),

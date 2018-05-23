@@ -5,15 +5,15 @@ var router = express.Router();
 var resumeModel = require('../models/resume_db.js');
 var personModel = require('../models/person_mgmt_db.js');
 
-router.get('/', function(req, res){
-	var urlData = url.parse(req.url, true).query;
-	resumeModel.createResume(urlData, function(err){
-		res.json(err);
-	});
-});
+// router.get('/', function(req, res){
+// 	var urlData = url.parse(req.url, true).query;
+// 	resumeModel.createResume(urlData, function(err){
+// 		res.json(err);
+// 	});
+// });
 
 router.get('/resumelist', function(req, res){
-	if(req.session.user){
+	if(req.session.user && req.session.user.usertype == 'person'){
 		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
 			if (err){
 				res.redirect('/404');
@@ -37,16 +37,16 @@ router.get('/resumelist', function(req, res){
 	}
 });
 
-router.get('/test', function(req, res){
-	res.json(url.parse(req.url, true).query);
-});
+// router.get('/test', function(req, res){
+// 	res.json(url.parse(req.url, true).query);
+// });
 
 
 router.get('/myresume', function(req, res){
-	if(req.session.user){
+	if(req.session.user && req.session.user.usertype == 'person'){
 		var urlData = url.parse(req.url, true).query;
 		if (JSON.stringify(urlData) == '{}'){
-			res.redirect('../resumelist')
+			res.redirect('../resumelist');
 		}else {
 			resumeModel.findById({_id: urlData._id}, function(err, data){
 				if (err){
@@ -70,19 +70,22 @@ router.get('/myresume', function(req, res){
 });
 
 router.post('/remove_resume', function(req, res){
-	// console.log(req.body);
-	resumeModel.removeResume(req.body, function(status){
-		// console.log(status);
-		if (status == 'ok'){
-			res.json({status:status, flag:1});
-		}else {
-			res.json({status:status, flag:0});
-		}
-	});
+	if(req.session.user && req.session.user.usertype == 'person'){
+		resumeModel.removeResume(req.body, function(status){
+			// console.log(status);
+			if (status == 'ok'){
+				res.json({status:status, flag:1});
+			}else {
+				res.json({status:status, flag:0});
+			}
+		});
+	}else {
+		res.json({status:"未登录", flag:0});
+	}
 });
 
 router.get('/create_resume', function(req, res){
-	if(req.session.user){
+	if(req.session.user && req.session.user.usertype == 'person'){
 		personModel.personAccInfo({username:req.session.user.username}, function(err, data){
 			if (err == 'ok'){
 				var resumeData = {
@@ -106,7 +109,7 @@ router.get('/create_resume', function(req, res){
 });
 
 router.post('/create_resume', function(req, res){
-	if(req.session.user){
+	if(req.session.user && req.session.user.usertype == 'person'){
 		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
 			if (err){
 				res.redirect('/404');
@@ -138,24 +141,28 @@ router.post('/create_resume', function(req, res){
 			}
 		});
 	}else {
-		res.redirect('/login');
+		res.json({status:"未登录", flag:0});
 	}
 });
 
 router.post('/modify_resume', function(req, res){
-	var resumeData = req.body;
-	resumeData['salary'] = JSON.parse(resumeData.salary);
-	resumeModel.modById(resumeData, function(status){
-		if (status == 'ok'){
-			res.json({status:status, flag:1});
-		}else {
-			res.json({status:status, flag:0});
-		}
-	});
+	if(req.session.user && req.session.user.usertype == 'person'){
+		var resumeData = req.body;
+		resumeData['salary'] = JSON.parse(resumeData.salary);
+		resumeModel.modById(resumeData, function(status){
+			if (status == 'ok'){
+				res.json({status:status, flag:1});
+			}else {
+				res.json({status:status, flag:0});
+			}
+		});
+	}else {
+		res.json({status:"未登录", flag:0});
+	}
 });
 
 router.post('/modify_default', function(req, res){
-	if(req.session.user){
+	if(req.session.user && req.session.user.usertype == 'person'){
 		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
 			if (err){
 				res.json({status:err, flag:0});
@@ -205,12 +212,12 @@ router.post('/modify_default', function(req, res){
 			}
 		});
 	}else {
-		res.redirect('/login');
+		res.json({status:"未登录", flag:0});
 	}
 });
 
 router.post('/modify_public', function(req, res){
-	if(req.session.user){
+	if(req.session.user && req.session.user.usertype == 'person'){
 		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
 			if (err){
 				res.json({status:err, flag:0});
@@ -237,7 +244,7 @@ router.post('/modify_public', function(req, res){
 			}
 		});
 	}else {
-		res.redirect('/login');
+		res.json({status:"未登录", flag:0});
 	}
 });
 

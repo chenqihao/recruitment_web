@@ -109,6 +109,11 @@ $(document).ready(function(){
 				$(".error_companyname").text('公司名不能为空');
 				return;
 			}
+			var companytype = $("#register_companytype").val();
+			if (!companytype){
+				$(".error_companytype").text('公司名不能为空');
+				return;
+			}
 			var representative = document.getElementById('register_representative').value;
 			if (representative.replace(/(^\s*)|(\s*$)/g, "").length == 0){
 				$(".error_representative").text('法人不能为空');
@@ -124,6 +129,7 @@ $(document).ready(function(){
 				password: password,
 				email: email,
 				companyname: companyname,
+				companytype: companytype,
 				representative: representative,
 				address: address,
 				usertype: usertype_str

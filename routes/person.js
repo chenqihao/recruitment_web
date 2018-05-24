@@ -53,11 +53,15 @@ router.get('/modify_resume', function(req, res){
 					res.json(err);
 				}else {
 					if (data != null){
-						res.render('resume', {
-							title:'修改简历',
-							userdata: req.session.user,
-							resumeData: data,
-						});
+						if (req.session.user.username == data.owner){
+							res.render('resume', {
+								title:'修改简历',
+								userdata: req.session.user,
+								resumeData: data,
+							});
+						}else {
+							res.json('user error');
+						}
 					}else {
 						res.json('no data');
 					}
@@ -80,11 +84,15 @@ router.get('/resume_browse', function(req, res){
 					res.json(err);
 				}else {
 					if (data != null){
-						res.render('resume_browse', {
-							title:'简历浏览',
-							userdata: req.session.user,
-							resumeData: data,
-						});
+						if (req.session.user.username == data.owner){
+							res.render('resume_browse', {
+								title:'简历浏览',
+								userdata: req.session.user,
+								resumeData: data,
+							});
+						}else {
+							res.json('user error');
+						}
 					}else {
 						res.json('no data');
 					}
@@ -98,7 +106,7 @@ router.get('/resume_browse', function(req, res){
 
 router.post('/remove_resume', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'person'){
-		resumeModel.removeResume(req.body, function(status){
+		resumeModel.removeResume({Data:req.body, username:req.session.user.username}, function(status){
 			// console.log(status);
 			if (status == 'ok'){
 				res.json({status:status, flag:1});
@@ -176,7 +184,7 @@ router.post('/modify_resume', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'person'){
 		var resumeData = req.body;
 		resumeData['salary'] = JSON.parse(resumeData.salary);
-		resumeModel.modById(resumeData, function(status){
+		resumeModel.modById({Data:resumeData, username:req.session.user.username}, function(status){
 			if (status == 'ok'){
 				res.json({status:status, flag:1});
 			}else {
@@ -202,16 +210,18 @@ router.post('/modify_default', function(req, res){
 					}
 				}
 				if (offid) {
-					resumeModel.modById({
+					resumeModel.modById({Data:{
 						_id:offid,
 						isDefault:false,
 						isPublic:false,
+					}, username:req.session.user.username,
 					},function(status){
 						if (status == 'ok'){
-							resumeModel.modById({
+							resumeModel.modById({Data:{
 								_id:req.body._id,
 								isDefault:true,
 								isPublic:true,
+							},username:req.session.user.username,
 							}, function(status){
 								if (status == 'ok'){
 									res.json({status:status, flag:1});
@@ -224,10 +234,11 @@ router.post('/modify_default', function(req, res){
 						}
 					});
 				}else {
-					resumeModel.modById({
+					resumeModel.modById({Data:{
 						_id:req.body._id,
 						isDefault:true,
 						isPublic:true,
+					},username:req.session.user.username,
 					}, function(status){
 						if (status == 'ok'){
 							res.json({status:status, flag:1});
@@ -252,9 +263,10 @@ router.post('/modify_public', function(req, res){
 				for(var i in data){
 					if(data[i]._id == req.body._id){
 						if (data[i].isDefault){
-							resumeModel.modById({
+							resumeModel.modById({Data:{
 								_id:req.body._id,
 								isPublic:!data[i].isPublic,
+							},username:req.session.user.username,
 							}, function(status){
 								if (status == 'ok'){
 									res.json({status:status, flag:1});

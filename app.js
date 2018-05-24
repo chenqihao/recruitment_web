@@ -16,6 +16,7 @@ var chgpwdRouter = require('./routes/chgpwd');
 var modinfoRouter = require('./routes/modinfo');
 var personRouter = require('./routes/person');
 var companyRouter = require('./routes/company');
+var testRouter = require('./routes/test');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/chgpwd', chgpwdRouter);
 app.use('/modinfo', modinfoRouter);
 app.use('/person', personRouter);
 app.use('/company', companyRouter);
+app.use('/test', testRouter);
 app.get('/',function(req,res){
   res.redirect('/index');
 });

@@ -175,25 +175,34 @@ exports.findById = function(reqData, callback){
 };
 
 exports.modById = function(reqData, callback){
-	var Data = reqData;
+	var Data = reqData.Data;
 	if(Data.owner&&Data.resumename){
 		Data['fullname'] = Data.owner+'.'+Data.resumename;
 	}
-	resumeModel.update({_id: Data._id}, {$set: Data},  {runValidators: true}, function(err, data){
+	resumeModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
 		if (err){
 			callback(err);
 		}else {
-			callback('ok');
+			if(data.n == 0){
+				callback('user error');
+			}else {
+				callback('ok');
+			}
 		}
 	});
 };
 
 exports.removeResume = function(reqData, callback){
-	resumeModel.remove({_id: reqData._id}, function(err, data){
+	var Data = reqData.Data;
+	resumeModel.remove({_id: Data._id,  owner: reqData.username}, function(err, data){
 		if (err){
 			callback(err);
 		}else {
-			callback('ok');
+			if(data.n == 0){
+				callback('user error');
+			}else {
+				callback('ok');
+			}
 		}
 	});
 };

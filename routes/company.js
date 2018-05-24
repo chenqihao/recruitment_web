@@ -40,7 +40,7 @@ router.get('/offerlist', function(req, res){
 
 router.post('/remove_offer', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'company'){
-		offerModel.removeOffer(req.body, function(status){
+		offerModel.removeOffer({Data:req.body, username:req.session.user.username}, function(status){
 			// console.log(status);
 			if (status == 'ok'){
 				res.json({status:status, flag:1});
@@ -64,11 +64,15 @@ router.get('/modify_offer', function(req, res){
 					res.json(err);
 				}else {
 					if (data != null){
-						res.render('offer', {
-							title:'修改职位信息',
-							userdata: req.session.user,
-							offerData: data,
-						});
+						if (req.session.user.username == data.owner){
+							res.render('offer', {
+								title:'修改职位信息',
+								userdata: req.session.user,
+								offerData: data,
+							});
+						}else {
+							res.json('user error');
+						}
 					}else {
 						res.json('no data');
 					}
@@ -91,11 +95,15 @@ router.get('/offer_browse', function(req, res){
 					res.json(err);
 				}else {
 					if (data != null){
-						res.render('offer_browse', {
-							title:'职位浏览',
-							userdata: req.session.user,
-							offerData: data,
-						});
+						if (req.session.user.username == data.owner){
+							res.render('offer_browse', {
+								title:'职位浏览',
+								userdata: req.session.user,
+								offerData: data,
+							});
+						}else {
+							res.json('user error');
+						}
 					}else {
 						res.json('no data');
 					}
@@ -155,7 +163,7 @@ router.post('/modify_offer', function(req, res){
 		offerData['isApproved'] = false;
 		offerData['salary'] = JSON.parse(offerData.salary);
 		offerData['rejected_reason'] = '未审核';
-		offerModel.modById(offerData, function(status){
+		offerModel.modById({Data:offerData, username:req.session.user.username}, function(status){
 			if (status == 'ok'){
 				res.json({status:status, flag:1});
 			}else {
@@ -171,7 +179,7 @@ router.post('/refresh_offer', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'company'){
 		var offerData = req.body;
 		offerData['editdate'] = new Date();
-		offerModel.modById(offerData, function(status){
+		offerModel.modById({Data:offerData, username:req.session.user.username}, function(status){
 			if (status == 'ok'){
 				res.json({status:status, flag:1});
 			}else {

@@ -163,21 +163,31 @@ exports.findById = function(reqData, callback){
 };
 
 exports.modById = function(reqData, callback){
-	offerModel.update({_id: reqData._id}, {$set: reqData},  {runValidators: true}, function(err, data){
+	var Data = reqData.Data;
+	offerModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
 		if (err){
 			callback(err);
 		}else {
-			callback('ok');
+			if(data.n == 0){
+				callback('user error');
+			}else {
+				callback('ok');
+			}
 		}
 	});
 };
 
 exports.removeOffer = function(reqData, callback){
-	offerModel.remove({_id: reqData._id}, function(err, data){
+	var Data = reqData.Data;
+	offerModel.remove({_id: Data._id, owner: reqData.username}, function(err, data){
 		if (err){
 			callback(err);
 		}else {
-			callback('ok');
+			if(data.n == 0){
+				callback('user error');
+			}else {
+				callback('ok');
+			}
 		}
 	});
 };

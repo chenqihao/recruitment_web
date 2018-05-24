@@ -26,9 +26,19 @@
     </div>
     <div class="nav_bar">
       <div class="nav_bar_blank"></div>
-      <div class="nav_bar_select redirect_resume_button" style="border:0; border-bottom:2px solid white; color:white;">简历管理</div>
+      <% if (userdata.usertype == 'person'){ %>
+      <div class="nav_bar_select redirect_resume_button">简历管理</div>
       <div class="nav_bar_select redirect_jobsearch_button">职位搜索</div>
       <div class="nav_bar_select redirect_apprecord_button">申请记录</div>
+      <% }else if (userdata.usertype == 'company') { %>
+      <div class="nav_bar_select redirect_jobmgmt_button">职位管理</div>
+      <div class="nav_bar_select redirect_appmgmt_button">应聘管理</div>
+      <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
+      <% }else { %>
+      <div class="nav_bar_select redirect_infomgmt_button">信息管理</div>
+      <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
+      <div class="nav_bar_select redirect_search_button">检索</div>
+      <% } %>
     </div>
     <div class="body_flexible">
       <div class="basic_information">
@@ -65,6 +75,14 @@
       <div class="text_block"><%= resumeData.self_evaluation %></div>
       <div class="sub_title">奖惩情况</div>
       <div class="text_block"><%= resumeData.rewards_punishments %></div>
+      <div class="button_line">
+        <% if(userdata.usertype == 'person') {%>
+        <div class="index_btn" onclick="toResumeMod('<%= resumeData._id %>')">修改</div>
+        <% }else if(userdata.usertype == 'company'){ %>
+        <div class="index_btn" onclick="toOfferDeliver()">投递</div>
+        <% } %>
+        <div class="index_btn" onclick="javascript:history.back(-1);">返回</div>
+      </div>
     </div>
     <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
     <script>

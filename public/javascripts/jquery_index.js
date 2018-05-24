@@ -111,4 +111,11 @@ function provinceChange(number){
 	});
 };
 
+function toResumeMod(_id){
+	window.location.href = "/person/modify_resume?_id="+_id;
+};
+
+function toOfferMod(_id){
+	window.location.href = "/company/modify_offer?_id="+_id;
+};
 

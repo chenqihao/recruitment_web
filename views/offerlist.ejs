@@ -42,8 +42,8 @@
         <% for (var i in offerList){ %>
         <ul class="list_row">
           <input type="hidden" class="hidden_offerId" value="<%= offerList[i]._id %>" disabled="disabled">
-          <li class="list_column"><a  href="/company/myoffer?_id=<%= offerList[i]._id %>"><%= offerList[i].offername %></a></li>
-          <li class="list_column"><a><%= offerList[i].editdate.Format("yyyy-MM-dd hh:mm:ss") %></a></li>
+          <li class="list_column"><a href="/company/offer_browse?_id=<%= offerList[i]._id %>"><%= offerList[i].offername %></a></li>
+          <li class="list_column"><%= offerList[i].editdate.Format("yyyy-MM-dd hh:mm:ss") %></li>
           <li class="list_column">
             <% if(offerList[i].isApproved){ %>
             <button class="select_button approve_status" style="background:rgb(0,188,212)">是</button>
@@ -51,7 +51,7 @@
             <button class="select_button approve_status" style="background:#BBBBBB" title="<%= offerList[i].rejected_reason %>">否</button>
             <% } %>
           </li>
-          <li class="list_column"><a class="opt_click refresh_offer_btn">更新</a><a style="color: black">|</a><a class="opt_click remove_offer_btn">删除</a></li>
+          <li class="list_column"><a class="opt_click modify_offer_btn">修改</a><a style="color: black">|<a class="opt_click refresh_offer_btn">更新</a><a style="color: black">|</a><a class="opt_click remove_offer_btn">删除</a></li>
         </ul>
         <% } %>
         <button class="list_btn" id="create_offer_button">新建

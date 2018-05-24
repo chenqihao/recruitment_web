@@ -49,7 +49,9 @@ $(document).ready(function(){
 			});
 		}
 	});
-
+	$(".modify_resume_btn").click(function(){
+		window.location.href = "/person/modify_resume?_id="+$(this).parent().siblings(".hidden_resumeId").val();
+	});
 	$(".list_btn").click(function(){
 		window.location.href = "/person/create_resume";
 	});

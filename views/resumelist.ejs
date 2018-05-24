@@ -42,7 +42,7 @@
         <% for (var i in resumeList){ %>
         <ul class="list_row">
           <input type="hidden" class="hidden_resumeId" value="<%= resumeList[i]._id %>" disabled="disabled">
-          <li class="list_column"><a  href="/person/myresume?_id=<%= resumeList[i]._id %>"><%= resumeList[i].resumename %></a></li>
+          <li class="list_column"><a  href="/person/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].resumename %></a></li>
           <li class="list_column">
             <% if(resumeList[i].isDefault){ %>
             <button class="select_button default_select" style="background:rgb(0,188,212)">是</button>
@@ -57,7 +57,7 @@
             <button class="select_button public_select" style="background:#BBBBBB">否</button>
             <% } %>
           </li>
-          <li class="list_column"><a class="opt_click remove_resume_btn">删除</a></li>
+          <li class="list_column"><a class="opt_click modify_resume_btn">修改</a><a style="color: black">|<a class="opt_click remove_resume_btn">删除</a></li>
         </ul>
         <% } %>
         <button class="list_btn" id="create_resume_button">新建

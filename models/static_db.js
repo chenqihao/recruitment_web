@@ -32,9 +32,29 @@ exports.getJob = function(reqData, callback){
 	});
 };
 
+exports.showJob = function(reqData, callback){
+	staticJobModel.findOne({number:reqData}, {"_id":-1, "name":1}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
+};
+
 exports.getCity = function(reqData, callback){
 	var regexobj = new RegExp(reqData.slice(0,2)+"\\d{2}00");
 	staticCityModel.find({number:regexobj}, {"_id":-1, "number":1, "name":1}, {sort:{number: 1}}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
+};
+
+exports.showCity = function(reqData, callback){
+	staticCityModel.findOne({number:reqData}, {"_id":-1, "name":1}, function(err, data){
 		if(err){
 			callback(err, null);
 		}else {

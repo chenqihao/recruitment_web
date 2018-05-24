@@ -42,7 +42,7 @@ router.get('/resumelist', function(req, res){
 // });
 
 
-router.get('/myresume', function(req, res){
+router.get('/modify_resume', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'person'){
 		var urlData = url.parse(req.url, true).query;
 		if (JSON.stringify(urlData) == '{}'){
@@ -55,6 +55,33 @@ router.get('/myresume', function(req, res){
 					if (data != null){
 						res.render('resume', {
 							title:'修改简历',
+							userdata: req.session.user,
+							resumeData: data,
+						});
+					}else {
+						res.json('no data');
+					}
+				}
+			});
+		}
+	}else {
+		res.redirect('/login');
+	}
+});
+
+router.get('/resume_browse', function(req, res){
+	if(req.session.user && req.session.user.usertype == 'person'){
+		var urlData = url.parse(req.url, true).query;
+		if (JSON.stringify(urlData) == '{}'){
+			res.redirect('../resumelist');
+		}else {
+			resumeModel.findById({_id: urlData._id}, function(err, data){
+				if (err){
+					res.json(err);
+				}else {
+					if (data != null){
+						res.render('resume_browse', {
+							title:'简历浏览',
 							userdata: req.session.user,
 							resumeData: data,
 						});

@@ -53,7 +53,7 @@ router.post('/remove_offer', function(req, res){
 	}
 });
 
-router.get('/myoffer', function(req, res){
+router.get('/modify_offer', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'company'){
 		var urlData = url.parse(req.url, true).query;
 		if (JSON.stringify(urlData) == '{}'){
@@ -66,6 +66,33 @@ router.get('/myoffer', function(req, res){
 					if (data != null){
 						res.render('offer', {
 							title:'修改职位信息',
+							userdata: req.session.user,
+							offerData: data,
+						});
+					}else {
+						res.json('no data');
+					}
+				}
+			});
+		}
+	}else {
+		res.redirect('/login');
+	}
+});
+
+router.get('/offer_browse', function(req, res){
+	if(req.session.user && req.session.user.usertype == 'company'){
+		var urlData = url.parse(req.url, true).query;
+		if (JSON.stringify(urlData) == '{}'){
+			res.redirect('../offerlist');
+		}else {
+			offerModel.findById({_id: urlData._id}, function(err, data){
+				if (err){
+					res.json(err);
+				}else {
+					if (data != null){
+						res.render('offer_browse', {
+							title:'职位浏览',
 							userdata: req.session.user,
 							offerData: data,
 						});

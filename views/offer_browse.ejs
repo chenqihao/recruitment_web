@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title><%= title %></title>
+    <link href="/stylesheets/index.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../javascripts/jquery.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_index.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="big_title"><%= title %></div>
+      <div class="user_area">
+        <div class="username_area"><%= userdata.username %></div>
+        <input type="hidden" class="hidden_username" value="<%= userdata.username %>" disabled="disabled">
+        <input type="hidden" class="hidden_usertype" value="<%= userdata.usertype %>" disabled="disabled">
+        <div class="toggle_box" style="display:none;">
+          <div class="toggle_block modinfo_area admin_need_hide">修改信息</div>
+          <div class="toggle_block chgpwd_area admin_need_hide">修改密码</div>
+          <div class="toggle_block logout_area">退出登录</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav_bar">
+      <div class="nav_bar_blank"></div>
+      <div class="nav_bar_select redirect_jobmgmt_button" style="border:0; border-bottom:2px solid white; color:white;">职位管理</div>
+      <div class="nav_bar_select redirect_appmgmt_button">应聘管理</div>
+      <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
+    </div>
+    <div class="body_flexible">
+      <div class="basic_information">
+        <div class="big_name"><%= offerData.offername %></div>
+        <div><%= offerData.companyname %></div>
+        <div id="location_text"></div>
+        <div><% if(offerData.companytype == '1'){ %>国企<% }else if(offerData.companytype == '2'){ %>事业单位<% }else if(offerData.companytype == '3'){ %>上市公司<% }else if(offerData.companytype == '4'){ %>民营公司<% }else if(offerData.companytype == '5'){ %>外资<% } %>&nbsp;|&nbsp;<% if(offerData.scale == '1'){ %>少于50人<% }else if(offerData.scale == '2'){ %>50~150人<% }else if(offerData.scale == '3'){ %>150~500人<% }else if(offerData.scale == '4'){ %>500~1000人<% }else if(offerData.scale == '5'){ %>1000~5000人<% }else if(offerData.scale == '6'){ %>5000~10000人<% }else if(offerData.scale == '7'){ %>大于10000人<% } %>&nbsp;|&nbsp;<% if(offerData.business == '010000'){ %>计算机/互联网/通信/电子<% }else if(offerData.business == '020000'){ %>销售/客服/技术支持<% }else if(offerData.business == '030000'){ %>会计/金融/银行/保险<% }else if(offerData.business == '040000'){ %>生产/营运/采购/物流<% }else if(offerData.business == '050000'){ %>生物/制药/医疗/护理<% }else if(offerData.business == '060000'){ %>广告/市场/媒体/艺术<% }else if(offerData.business == '070000'){ %>建筑/房地产<% }else if(offerData.business == '080000'){ %>人事/行政/高级管理<% }else if(offerData.business == '090000'){ %>咨询/法律/教育/科研<% }else if(offerData.business == '100000'){ %>服务业<% }else if(offerData.business == '110000'){ %>公务员/翻译/其他<% } %></div>
+      </div>
+      <div class="sub_title">职位详情</div>
+      <div class="text_line"><span class="attribute_name">职位分类：</span><span class="attribute_value" id="job_text"></span></div>
+      <div class="text_line"><span class="attribute_name">工作性质：</span><span class="attribute_value"><% if(offerData.job_type == 'fulltime'){ %>全职<% }else if(offerData.job_type == 'parttime'){ %>兼职<% }else if(offerData.job_type == 'intern'){ %>实习<% }else if(offerData.job_type == 'fullOrPart'){ %>全/兼职<% } %></span></div>
+      <div class="text_line"><span class="attribute_name">工作经验：</span><span class="attribute_value"><% if(offerData.experience == 0){ %>无<%}else{%><%=offerData.experience%>年<%}%></span></div>
+      <div class="text_line"><span class="attribute_name">预计月薪：</span><span class="attribute_value"><%= offerData.salary[0]*1000 %>~<%= offerData.salary[1]*1000 %>元/月</span></div>
+      <div class="text_line"><span class="attribute_name">最低学历：</span><span class="attribute_value"></span><% if(offerData.education == 11){ %>博士研究生<% }else if(offerData.education == 12){ %>博士研究生结业<% }else if(offerData.education == 13){ %>博士研究生肄业<% }else if(offerData.education == 14){ %>硕士研究生<% }else if(offerData.education == 15){ %>硕士研究生结业<% }else if(offerData.education == 16){ %>硕士研究生肄业<% }else if(offerData.education == 17){ %>研究生班<% }else if(offerData.education == 18){ %>研究生班结业<% }else if(offerData.education == 19){ %>研究生班肄业<% }else if(offerData.education == 20){ %>大学本科<% }else if(offerData.education == 21){ %>大学本科结业<% }else if(offerData.education == 22){ %>大学本科肄业<% }else if(offerData.education == 23){ %>大学普通班<% }else if(offerData.education == 24){ %>大学专科<% }else if(offerData.education == 25){ %>大学专科结业<% }else if(offerData.education == 26){ %>大学专科肄业<% }else if(offerData.education == 27){ %>高职<% }else if(offerData.education == 28){ %>高职结业<% }else if(offerData.education == 29){ %>高职肄业<% }else if(offerData.education == 30){ %>中等专科<% }else if(offerData.education == 31){ %>中等专科结业<% }else if(offerData.education == 32){ %>中等专科肄业<% } %></div>
+      <div class="text_line"><span class="attribute_name">需求人数：</span><span class="attribute_value"><%= offerData.need_number %>人</span></div>
+      <div class="sub_title">公司简介</div>
+      <div class="text_block"><%= offerData.company_description %></div>
+      <div class="sub_title">职位简介</div>
+      <div class="text_block"><%= offerData.job_description %></div>
+      <div class="sub_title">福利待遇</div>
+      <div class="text_block"><%= offerData.fringe_benefits %></div>
+      <div class="sub_title">联系方式</div>
+      <div class="text_block">详细地址：<%= offerData.address %><br><%= offerData.contact_information %></div>
+    </div>
+    <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    <script>
+        $.get('/index/show_city?number='+"<%=offerData.location%>", function(data, status){
+          if(status == 'success'){
+            if(data.flag == 1){
+              $("#location_text").text('公司地址：'+data.province+'-'+data.status.name);
+            }else {
+              alert(data.status);
+            }
+          }else {
+            alert('get failed');
+          }
+        });
+        $.get('/index/show_job?number='+"<%=offerData.job%>", function(data, status){
+          if(status == 'success'){
+            if(data.flag == 1){
+              $("#job_text").text(data.status.name);
+            }else {
+              alert(data.status);
+            }
+          }else {
+            alert('get failed');
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -29,6 +29,9 @@ $(document).ready(function(){
 			}
 		});
 	});
+	$(".modify_offer_btn").click(function(){
+		window.location.href = "/company/modify_offer?_id="+$(this).parent().siblings(".hidden_offerId").val();
+	});
 	$(".list_btn").click(function(){
 		window.location.href = "/company/create_offer";
 	});

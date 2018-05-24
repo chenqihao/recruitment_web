@@ -115,6 +115,12 @@ a:hover {
 	height: 615px;
 	padding-top: 40px;
 }
+.body_flexible {
+	width: 100%;
+	/*width: 1500px;*/
+	min-height: 645px;
+	padding-top: 10px;
+}
 .body_msg {
 	width: 80%;
 	font-size: 40px;
@@ -360,4 +366,48 @@ textarea {
 .index_btn:hover {
 	background-color: #EEEEEE;
 	color: rgb(0,188,212);
+}
+.sub_title {
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	background: -webkit-linear-gradient(left, rgb(144,222,222), white); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(right, rgb(144,222,222), white); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(right, rgb(144,222,222), white); /* Firefox 3.6 - 15 */
+	background: linear-gradient(to right, rgb(144,222,222), white); /* 标准的语法 */
+	padding-left: 2%;
+	font-size: 20px;
+	color: white;
+	background-color: rgb(144,222,222);
+	border: 0;
+	border-left: 10px solid rgb(0,188,212);
+}
+.basic_information {
+	margin: 1%;
+	padding-left: 3%;
+}
+.big_name {
+	font-size: 32px;
+	height: 42px;
+	line-height: 42px;
+}
+.text_line {
+	font-size: 16px;
+	padding-left: 4%;
+	height: 24px;
+	line-height: 24px;
+}
+.attribute_name {
+	font-weight: bold;
+}
+.text_block{
+	width: 600px;
+	font-size: 16px;
+	padding: 10px 0 10px 4%;
+	white-space: pre-line;
+	/*word-break: normal;*/
+	word-wrap: break-word;
 }

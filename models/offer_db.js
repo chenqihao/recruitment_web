@@ -311,8 +311,8 @@ exports.removeOffer = function(reqData, callback){
 };
 
 exports.search = function(reqData, callback){
-	var Data = {isApproved: false};
-	var sortKey = reqData.sortKey;
+	var Data = {isApproved: true};
+	var sortRul = reqData.sortKey;
 	if(reqData.Data.companyname){
 		Data["companyname"] = {$regex:reqData.Data.companyname};
 	}else if(reqData.Data.offername){
@@ -343,7 +343,6 @@ exports.search = function(reqData, callback){
 	if(reqData.Data.salary_max){
 		Data["salary.1"] = {$lte:reqData.Data.salary_max};
 	}
-	console.log(Data);
 	offerModel.find(Data,
 		// {
 		// 	companyname:{$regex:Data.companyname},
@@ -359,7 +358,7 @@ exports.search = function(reqData, callback){
 			'location_str':1,
 			'salary':1,
 			'editdate':1,
-		}, {sort:{sortKey:1}},
+		}, {sort:{editdate:-1}},
 		function(err, data){
 			if(err){
 				callback(err, null);

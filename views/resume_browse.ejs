@@ -80,6 +80,8 @@
         <div class="index_btn" onclick="toResumeMod('<%= resumeData._id %>')">修改</div>
         <% }else if(userdata.usertype == 'company'){ %>
         <div class="index_btn" onclick="toOfferDeliver()">投递</div>
+        <% }else if(userdata.usertype == 'admin'){ %>
+        <div class="index_btn" onclick="toApprove()">通过</div>
         <% } %>
         <div class="index_btn" onclick="javascript:history.back(-1);">返回</div>
       </div>

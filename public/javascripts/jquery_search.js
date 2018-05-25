@@ -28,6 +28,35 @@ function offerSearch(){
 	window.location.href = url.replace(/(&|\?)$/, '');
 }
 
+function resumeSearch(){
+	var url = '/common/resume_search?';
+	if($(".select_education").val()){
+		url += 'education='+$(".select_education").val()+'&';
+	}
+	if($("#experience").val()){
+		url += 'experience='+$("#experience").val()+'&';
+	}
+	if($(".select_job").val()){
+		url += 'job='+$(".select_job").val()+'&';
+	}else if($(".select_function").val()){
+		url += 'job='+$(".select_function").val()+'&';
+	}else if($(".select_industry").val()){
+		url += 'job='+$(".select_industry").val()+'&';
+	}
+	if($(".select_city").val()){
+		url += 'location='+$(".select_city").val()+'&';
+	}else if($(".select_province").val()){
+		url += 'location='+$(".select_province").val()+'&';
+	}
+	if($("#salary_min").val()){
+		url += 'salary_min='+$("#salary_min").val()+'&';
+	}
+	if($("#salary_max").val()){
+		url += 'salary_max='+$("#salary_max").val()+'&';
+	}
+	window.location.href = url.replace(/(&|\?)$/, '');
+}
+
 function nextPage(page){
 	var nextpage = page+1;
 	var url;

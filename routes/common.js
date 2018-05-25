@@ -16,7 +16,7 @@ router.get('/offer_search', function(req, res){
 			page = 1;
 		}
 		offerModel.search({
-			sortKey: "editdate",
+			sortRul: "editdate",
 			Data: {
 				companyname: urlData.companyname,
 				offername: urlData.offername,
@@ -29,12 +29,14 @@ router.get('/offer_search', function(req, res){
 			if(err){
 				res.json(err);
 			}else {
+				console.log(data);
 				res.render('offer_search', {
 					title: '职位搜索',
 					userdata: req.session.user,
 					offerList: data.slice((page-1)*10, page*10),
 					page: page,
 					maxpage: parseInt((data.length-1)/10)+1,
+					searchData: urlData,
 				});
 			}
 		});
@@ -43,15 +45,41 @@ router.get('/offer_search', function(req, res){
 	}
 });
 
-router.get('/search', function(req, res){
-	var page = 1;
-	res.render('offer_search', {
-		title: '职位搜索',
-		userdata: req.session.user,
-		offerList: data.slice((page-1)*10, page*10),
-		page: page,
-		maxpage: parseInt((data.length-1)/10)+1,
-	});
+router.get('/resume_search', function(req, res){
+	 if(req.session.user&&req.session.user.usertype != 'person'){
+		var urlData = url.parse(req.url, true).query;
+		var page = urlData.page;
+		if (page == null){
+			page = 1;
+		}
+		resumeModel.search({
+			sortRul: "editdate",
+			Data: {
+				education: urlData.education,
+				experience: urlData.experience,
+				location: urlData.location,
+				job: urlData.job,
+				salary_min: urlData.salary_min,
+				salary_max: urlData.salary_max,
+			}
+		}, function(err, data){
+			if(err){
+				res.json(err);
+			}else {
+				console.log(data);
+				res.render('resume_search', {
+					title: '简历搜索',
+					userdata: req.session.user,
+					resumeList: data.slice((page-1)*10, page*10),
+					page: page,
+					maxpage: parseInt((data.length-1)/10)+1,
+					searchData: urlData,
+				});
+			}
+		});
+	}else {
+		res.redirect('/login');
+	}
 });
 
 Date.prototype.Format = function(fmt) {

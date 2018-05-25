@@ -38,6 +38,9 @@ $(document).ready(function(){
 	$(".redirect_jobsearch_button").click(function(){
 		window.location.href = '/common/offer_search';
 	});
+	$(".redirect_peoplesearch_button").click(function(){
+		window.location.href = '/common/resume_search';
+	});
 });
 
 $.extend({

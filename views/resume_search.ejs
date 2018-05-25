@@ -29,12 +29,12 @@
       <div class="nav_bar_blank"></div>
       <% if (userdata.usertype == 'person'){ %>
       <div class="nav_bar_select redirect_resume_button">简历管理</div>
-      <div class="nav_bar_select redirect_jobsearch_button" style="border:0; border-bottom:2px solid white; color:white;">职位搜索</div>
+      <div class="nav_bar_select redirect_jobsearch_button">职位搜索</div>
       <div class="nav_bar_select redirect_apprecord_button">申请记录</div>
       <% }else if (userdata.usertype == 'company') { %>
       <div class="nav_bar_select redirect_jobmgmt_button">职位管理</div>
       <div class="nav_bar_select redirect_appmgmt_button">应聘管理</div>
-      <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
+      <div class="nav_bar_select redirect_peoplesearch_button" style="border:0; border-bottom:2px solid white; color:white;">人才检索</div>
       <% }else { %>
       <div class="nav_bar_select redirect_infomgmt_button">信息管理</div>
       <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
@@ -44,13 +44,37 @@
     <div class="body_flexible">
       <div class="search_box">
         <div class="search_bar_box">
-          <div class="search_bar">
-            <select class="content_select">
-              <option value="offername">职位名</option>
-              <option value="companyname">公司名</option>
+          <div class="search_line">
+            <div class="search_option_text">学历</div>
+            <select class="search_option_select select_education">
+              <option value=""></option>
+              <option value="11">博士研究生</option>
+              <option value="12">博士研究生结业</option>
+              <option value="13">博士研究生肄业</option>
+              <option value="14">硕士研究生</option>
+              <option value="15">硕士研究生结业</option>
+              <option value="16">硕士研究生肄业</option>
+              <option value="17">研究生班</option>
+              <option value="18">研究生班结业</option>
+              <option value="19">研究生班肄业</option>
+              <option value="20">大学本科</option>
+              <option value="21">大学本科结业</option>
+              <option value="22">大学本科肄业</option>
+              <option value="23">大学普通班</option>
+              <option value="24">大学专科</option>
+              <option value="25">大学专科结业</option>
+              <option value="26">大学专科肄业</option>
+              <option value="27">高职</option>
+              <option value="28">高职结业</option>
+              <option value="29">高职肄业</option>
+              <option value="30">中等专科</option>
+              <option value="31">中等专科结业</option>
+              <option value="32">中等专科肄业</option>
             </select>
-            <input type="text" class="input_search_content" name="search_content">
-            <div class="search_btn" onclick="offerSearch()">搜索</div>
+            <div class="search_option_blank">&nbsp;</div>
+            <div class="search_option_text double">工作经验(年)</div>
+            <input class="search_option_input" id="experience" type="text" name="experience" value="<%= searchData.experience %>">
+            <div class="search_btn" onclick="resumeSearch()">搜索</div>
           </div>
           <div class="search_line">
             <div class="search_option_text">岗位</div>
@@ -117,7 +141,7 @@
             <select class="search_option_select half select_city">
               <option value selected="selected"></option>
             </select>
-            <div class="search_option_blank"></div>
+            <div class="search_option_blank">&nbsp;</div>
             <div class="search_option_text double">薪资(千/月)</div>
             <input class="search_option_input salary" id="salary_min" type="text" name="salary_min" value="<%= searchData.salary_min %>">
             <div class="search_option_blank salary">-</div>
@@ -125,20 +149,20 @@
           </div>
         </div>
         <ul class="list_title">
-          <li class="list_title_column">职位名</li>
-          <li class="list_title_column">公司名</li>
-          <li class="list_title_column_small">工作地点</li>
-          <li class="list_title_column_small">薪资</li>
-          <li class="list_title_column_small">发布时间</li>
+          <li class="list_title_column">姓名</li>
+          <li class="list_title_column_small">学历</li>
+          <li class="list_title_column">院校专业</li>
+          <li class="list_title_column_small">工作经验</li>
+          <li class="list_title_column_small">居住地</li>
         </ul>
-        <% for (var i in offerList){ %>
+        <% for (var i in resumeList){ %>
         <ul class="list_row">
-          <input type="hidden" class="hidden_offerId" value="<%= offerList[i]._id %>" disabled="disabled">
-          <li class="list_column"><a href="/person/offer_browse?_id=<%= offerList[i]._id %>"><%= offerList[i].offername %></a></li>
-          <li class="list_column"><a href="/common/offer_search?companyname=<%= offerList[i].companyname %>"><%= offerList[i].companyname %></a></li>
-          <li class="list_column_small"><%= offerList[i].location_str %></li>
-          <li class="list_column_small salary"><%= offerList[i].salary[0]%>~<%= offerList[i].salary[1]%>千/月</li>
-          <li class="list_column_small"><%= offerList[i].editdate.Format("MM-dd") %></li>
+          <input type="hidden" class="hidden_resumeId" value="<%= resumeList[i]._id %>" disabled="disabled">
+          <li class="list_column"><a href="/company/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].realname %></a></li>
+          <li class="list_column_small"><% if(resumeList[i].education == 11){ %>博士研究生<% }else if(resumeList[i].education == 12){ %>博士研究生结业<% }else if(resumeList[i].education == 13){ %>博士研究生肄业<% }else if(resumeList[i].education == 14){ %>硕士研究生<% }else if(resumeList[i].education == 15){ %>硕士研究生结业<% }else if(resumeList[i].education == 16){ %>硕士研究生肄业<% }else if(resumeList[i].education == 17){ %>研究生班<% }else if(resumeList[i].education == 18){ %>研究生班结业<% }else if(resumeList[i].education == 19){ %>研究生班肄业<% }else if(resumeList[i].education == 20){ %>大学本科<% }else if(resumeList[i].education == 21){ %>大学本科结业<% }else if(resumeList[i].education == 22){ %>大学本科肄业<% }else if(resumeList[i].education == 23){ %>大学普通班<% }else if(resumeList[i].education == 24){ %>大学专科<% }else if(resumeList[i].education == 25){ %>大学专科结业<% }else if(resumeList[i].education == 26){ %>大学专科肄业<% }else if(resumeList[i].education == 27){ %>高职<% }else if(resumeList[i].education == 28){ %>高职结业<% }else if(resumeList[i].education == 29){ %>高职肄业<% }else if(resumeList[i].education == 30){ %>中等专科<% }else if(resumeList[i].education == 31){ %>中等专科结业<% }else if(resumeList[i].education == 32){ %>中等专科肄业<% } %></li>
+          <li class="list_column"><%= resumeList[i].school %>-<%= resumeList[i].major %></li>
+          <li class="list_column_small"><% if(resumeList[i].experience == 0){ %>无<%}else{%><%=resumeList[i].experience%>年<%}%></li>
+          <li class="list_column_small"><%= resumeList[i].location_str %></li>
         </ul>
         <% } %>
       </div>
@@ -209,12 +233,8 @@
           alert('post failed');
         }
       });
-      if ("<%=searchData.companyname%>"){
-        $(".content_select").val("companyname");
-        $(".input_search_content").val("<%=searchData.companyname%>");
-      }else if ("<%=searchData.offername%>"){
-        $(".input_search_content").val("<%=searchData.offername%>");
-      }
+      $(".select_education").val("<%= searchData.education %>");
+      $("#experience").val("<%= searchData.experience %>");
     </script>
   </body>
 </html>

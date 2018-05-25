@@ -4,6 +4,8 @@ var url = require('url');
 var router = express.Router();
 var resumeModel = require('../models/resume_db.js');
 var personModel = require('../models/person_mgmt_db.js');
+var offerModel = require('../models/offer_db.js');
+var companyModel = require('../models/company_mgmt_db.js');
 
 // router.get('/', function(req, res){
 // 	var urlData = url.parse(req.url, true).query;
@@ -287,5 +289,58 @@ router.post('/modify_public', function(req, res){
 	}
 });
 
+
+router.get('/offer_browse', function(req, res){
+	if(req.session.user && req.session.user.usertype == 'person'){
+		var urlData = url.parse(req.url, true).query;
+		if (JSON.stringify(urlData) == '{}'){
+			res.redirect('../offerlist');
+		}else {
+			offerModel.findById({_id: urlData._id}, function(err, data){
+				if (err){
+					res.json(err);
+				}else {
+					if (data != null ){
+						if (data.isApproved){
+							res.render('offer_browse', {
+								title:'职位浏览',
+								userdata: req.session.user,
+								offerData: data,
+							});
+						}else {
+							res.json('user error');
+						}
+					}else {
+						res.json('no data');
+					}
+				}
+			});
+		}
+	}else {
+		res.redirect('/login');
+	}
+});
+
+
+Date.prototype.Format = function(fmt) {
+     var o = {
+        "M+" : this.getMonth()+1,                 //月份
+        "d+" : this.getDate(),                    //日
+        "h+" : this.getHours(),                   //小时
+        "m+" : this.getMinutes(),                 //分
+        "s+" : this.getSeconds(),                 //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S"  : this.getMilliseconds()             //毫秒
+    };
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt;
+};
 
 module.exports = router;

@@ -4,6 +4,8 @@ var url = require('url');
 var router = express.Router();
 var offerModel = require('../models/offer_db.js');
 var companyModel = require('../models/company_mgmt_db.js');
+var resumeModel = require('../models/resume_db.js');
+var personModel = require('../models/person_mgmt_db.js');
 
 // router.get('/', function(req, res){
 // 	var urlData = url.parse(req.url, true).query;
@@ -190,6 +192,38 @@ router.post('/refresh_offer', function(req, res){
 		res.json({status:"未登录", flag:0});
 	}
 });
+
+router.get('/resume_browse', function(req, res){
+	if(req.session.user && req.session.user.usertype == 'company'){
+		var urlData = url.parse(req.url, true).query;
+		if (JSON.stringify(urlData) == '{}'){
+			res.redirect('../resumelist');
+		}else {
+			resumeModel.findById({_id: urlData._id}, function(err, data){
+				if (err){
+					res.json(err);
+				}else {
+					if (data != null){
+						if (data.isPublic){
+							res.render('resume_browse', {
+								title:'简历浏览',
+								userdata: req.session.user,
+								resumeData: data,
+							});
+						}else {
+							res.json('user error');
+						}
+					}else {
+						res.json('no data');
+					}
+				}
+			});
+		}
+	}else {
+		res.redirect('/login');
+	}
+});
+
 
 Date.prototype.Format = function(fmt) {
      var o = {

@@ -35,6 +35,9 @@ $(document).ready(function(){
 	$(".redirect_jobmgmt_button").click(function(){
 		window.location.href = '/company/offerlist';
 	});
+	$(".redirect_jobsearch_button").click(function(){
+		window.location.href = '/common/offer_search';
+	});
 });
 
 $.extend({
@@ -118,4 +121,5 @@ function toResumeMod(_id){
 function toOfferMod(_id){
 	window.location.href = "/company/modify_offer?_id="+_id;
 };
+
 

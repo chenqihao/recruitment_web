@@ -1,5 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var staticModel = require('./static_db.js');
 
 var Schema = mongoose.Schema;
 var offerSchema = new Schema({
@@ -26,7 +27,6 @@ var offerSchema = new Schema({
 	},
 	companyname:{
 		type:String,
-		unique:true,
 		required:[true,'公司名不能为空'],
 		trim:true,
 	},
@@ -51,10 +51,18 @@ var offerSchema = new Schema({
 		required:[true, '请选择所在地'],
 		match:[/^(0[1-9]|[1-9]\d){2}00$/, '请确认所在地无误'],
 	},
+	location_str:{
+		type:String,
+		required:true,
+	},
 	job:{
 		type:String,
 		required:[true, '请选择岗位'],
 		match:[/^(0[1-9]|[1-9]\d){3}$/, '请确认岗位无误'],
+	},
+	job_str:{
+		type:String,
+		required:true,
 	},
 	scale:{
 		type:Number,
@@ -133,7 +141,7 @@ var offerSchema = new Schema({
 var offerModel = mongoose.model('offers', offerSchema);
 
 exports.listByOwner = function(reqData, callback){
-	offerModel.find({owner: reqData.owner}, ['_id', 'offername', 'editdate', 'rejected_reason'], {sort:{_id: 1}}, function(err, data){
+	offerModel.find({owner: reqData.owner}, ['_id', 'offername', 'editdate', 'rejected_reason', 'salary', 'companyname', 'location_str'], {sort:{_id: 1}}, function(err, data){
 		if (err){
 			callback(err, null);
 		}else {
@@ -143,13 +151,62 @@ exports.listByOwner = function(reqData, callback){
 };
 
 exports.createOffer = function(reqData, callback){
-	offerModel.create(reqData, function(err, data){
-		if (err){
-			callback(err);
-		}else {
-			callback('ok');
-		}
-	});
+	if(reqData.location){
+		staticModel.showCity(reqData.location, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				reqData['location_str'] = staticModel.showProvince(reqData.location)+'-'+data.name;
+				if(reqData.job){
+					staticModel.showJob(reqData.job, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							reqData['job_str'] = data.name;
+							offerModel.create(reqData, function(err, data){
+								if (err){
+									callback(err);
+								}else {
+									callback('ok');
+								}
+							});
+						}
+					});
+				}else{
+					offerModel.create(reqData, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							callback('ok');
+						}
+					});
+				}
+			}
+		});
+	}else if(reqData.job){
+		staticModel.showJob(reqData.job, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				reqData['job_str'] = data.name;
+				offerModel.create(reqData, function(err, data){
+					if (err){
+						callback(err);
+					}else {
+						callback('ok');
+					}
+				});
+			}
+		});
+	}else {
+		offerModel.create(reqData, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				callback('ok');
+			}
+		});
+	}
 };
 
 exports.findById = function(reqData, callback){
@@ -164,17 +221,78 @@ exports.findById = function(reqData, callback){
 
 exports.modById = function(reqData, callback){
 	var Data = reqData.Data;
-	offerModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
-		if (err){
-			callback(err);
-		}else {
-			if(data.n == 0){
-				callback('user error');
+	if(Data.location){
+		staticModel.showCity(Data.location, function(err, data){
+			if (err){
+				callback(err);
 			}else {
-				callback('ok');
+				Data['location_str'] = staticModel.showProvince(Data.location)+'-'+data.name;
+				if(Data.job){
+					staticModel.showJob(Data.job, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							Data['job_str'] = data.name;
+							offerModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+								if (err){
+									callback(err);
+								}else {
+									if(data.n == 0){
+										callback('user error');
+									}else {
+										callback('ok');
+									}
+								}
+							});
+						}
+					});
+				}else {
+					offerModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							if(data.n == 0){
+								callback('user error');
+							}else {
+								callback('ok');
+							}
+						}
+					});
+				}
 			}
-		}
-	});
+		});
+	}else if(Data.job){
+		staticModel.showJob(Data.job, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				Data['job_str'] = data.name;
+				offerModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+					if (err){
+						callback(err);
+					}else {
+						if(data.n == 0){
+							callback('user error');
+						}else {
+							callback('ok');
+						}
+					}
+				});
+			}
+		});
+	}else {
+		offerModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				if(data.n == 0){
+					callback('user error');
+				}else {
+					callback('ok');
+				}
+			}
+		});
+	}
 };
 
 exports.removeOffer = function(reqData, callback){
@@ -190,4 +308,64 @@ exports.removeOffer = function(reqData, callback){
 			}
 		}
 	});
+};
+
+exports.search = function(reqData, callback){
+	var Data = {isApproved: false};
+	var sortKey = reqData.sortKey;
+	if(reqData.Data.companyname){
+		Data["companyname"] = {$regex:reqData.Data.companyname};
+	}else if(reqData.Data.offername){
+		Data["offername"] = {$regex:reqData.Data.offername};
+	}
+	if(reqData.Data.location){
+		if(reqData.Data.location.slice(2,4) != '00'){
+			Data["location"] = reqData.Data.location;
+		}else{
+			var pattern = new RegExp("^"+reqData.Data.location.slice(0,2)+"\\d{4}$");
+			Data["location"] = {$regex:pattern};
+		}
+	}
+	if(reqData.Data.job){
+		if(reqData.Data.job.slice(4,6) != '00'){
+			Data["job"] = reqData.Data.job;
+		}else if(reqData.Data.job.slice(2,4) != '00'){
+			var pattern = new RegExp("^"+reqData.Data.job.slice(0,4)+"\\d{2}$");
+			Data["job"] = {$regex:pattern};
+		}else {
+			var pattern = new RegExp("^"+reqData.Data.job.slice(0,2)+"\\d{4}$");
+			Data["job"] = {$regex:pattern};
+		}
+	}
+	if(reqData.Data.salary_min){
+		Data["salary.0"] = {$gte:reqData.Data.salary_min};
+	}
+	if(reqData.Data.salary_max){
+		Data["salary.1"] = {$lte:reqData.Data.salary_max};
+	}
+	console.log(Data);
+	offerModel.find(Data,
+		// {
+		// 	companyname:{$regex:Data.companyname},
+		// 	offername:{$regex:Data.offername},
+		// 	location:Data.location,
+		// 	job:Data.job,
+		// 	// salary:{$all:[{$gte:Data.salary_min},{$lte:Data.salary_max}]},
+		// 	isApproved:true,
+		{
+			'_id':1,
+			'offername':1,
+			'companyname':1,
+			'location_str':1,
+			'salary':1,
+			'editdate':1,
+		}, {sort:{sortKey:1}},
+		function(err, data){
+			if(err){
+				callback(err, null);
+			}else {
+				callback(null, data);
+			}
+		}
+	);
 };

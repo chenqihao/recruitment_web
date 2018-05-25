@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title><%= title %></title>
+    <link href="/stylesheets/index.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../javascripts/jquery.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_index.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_search.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="big_title"><%= title %></div>
+      <div class="user_area">
+        <div class="username_area"><%= userdata.username %></div>
+        <input type="hidden" class="hidden_username" value="<%= userdata.username %>" disabled="disabled">
+        <input type="hidden" class="hidden_usertype" value="<%= userdata.usertype %>" disabled="disabled">
+        <div class="toggle_box" style="display:none;">
+          <div class="toggle_block modinfo_area admin_need_hide">修改信息</div>
+          <div class="toggle_block chgpwd_area admin_need_hide">修改密码</div>
+          <div class="toggle_block logout_area">退出登录</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav_bar">
+      <div class="nav_bar_blank"></div>
+      <% if (userdata.usertype == 'person'){ %>
+      <div class="nav_bar_select redirect_resume_button">简历管理</div>
+      <div class="nav_bar_select redirect_jobsearch_button" style="border:0; border-bottom:2px solid white; color:white;">职位搜索</div>
+      <div class="nav_bar_select redirect_apprecord_button">申请记录</div>
+      <% }else if (userdata.usertype == 'company') { %>
+      <div class="nav_bar_select redirect_jobmgmt_button">职位管理</div>
+      <div class="nav_bar_select redirect_appmgmt_button">应聘管理</div>
+      <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
+      <% }else { %>
+      <div class="nav_bar_select redirect_infomgmt_button">信息管理</div>
+      <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
+      <div class="nav_bar_select redirect_search_button" style="border:0; border-bottom:2px solid white; color:white;">检索</div>
+      <% } %>
+    </div>
+    <div class="body_flexible">
+      <div class="search_box">
+        <div class="search_bar_box">
+          <div class="search_bar">
+            <select class="content_select">
+              <option value="offername">职位名</option>
+              <option value="companyname">公司名</option>
+            </select>
+            <input type="text" class="input_search_content" name="search_content">
+            <div class="search_btn" onclick="offerSearch()">搜索</div>
+          </div>
+          <div class="search_line">
+            <div class="search_option_box">
+              <div class="search_option_text">岗位</div>
+              <select class="search_option_select select_industry" onchange="industryChange(this.value)">
+                <option value selected="selected"></option>
+                <option value="010000">计算机/互联网/通信/电子</option>
+                <option value="020000">销售/客服/技术支持</option>
+                <option value="030000">会计/金融/银行/保险</option>
+                <option value="040000">生产/营运/采购/物流</option>
+                <option value="050000">生物/制药/医疗/护理</option>
+                <option value="060000">广告/市场/媒体/艺术</option>
+                <option value="070000">建筑/房地产</option>
+                <option value="080000">人事/行政/高级管理</option>
+                <option value="090000">咨询/法律/教育/科研</option>
+                <option value="100000">服务业</option>
+                <option value="110000">公务员/翻译/其他</option>
+              </select>
+              <select class="search_option_select select_function"  onchange="functionChange(this.value)">
+                <option value selected="selected"></option>
+              </select>
+              <select class="search_option_select select_job">
+                <option value selected="selected"></option>
+              </select>
+            </div>
+          </div>
+          <div class="search_line">
+            <div class="search_line_half">
+              <div class="search_option_text_half">地址</div>
+              <select class="search_option_select_half select_province" onchange="provinceChange(this.value)">
+                <option value=""></option>
+                <option value="110000">北京市</option>
+                <option value="120000">天津市</option>
+                <option value="130000">河北省</option>
+                <option value="140000">山西省</option>
+                <option value="150000">内蒙古自治区</option>
+                <option value="210000">辽宁省</option>
+                <option value="220000">吉林省</option>
+                <option value="230000">黑龙江省</option>
+                <option value="310000">上海市</option>
+                <option value="320000">江苏省</option>
+                <option value="330000">浙江省</option>
+                <option value="340000">安徽省</option>
+                <option value="350000">福建省</option>
+                <option value="360000">江西省</option>
+                <option value="370000">山东省</option>
+                <option value="410000">河南省</option>
+                <option value="420000">湖北省</option>
+                <option value="430000">湖南省</option>
+                <option value="440000">广东省</option>
+                <option value="450000">广西壮族自治区</option>
+                <option value="460000">海南省</option>
+                <option value="500000">重庆市</option>
+                <option value="510000">四川省</option>
+                <option value="520000">贵州省</option>
+                <option value="530000">云南省</option>
+                <option value="540000">西藏自治区</option>
+                <option value="610000">陕西省</option>
+                <option value="620000">甘肃省</option>
+                <option value="630000">青海省</option>
+                <option value="640000">宁夏回族自治区</option>
+                <option value="650000">新疆维吾尔自治区</option>
+                <option value="710000">台湾省</option>
+                <option value="810000">香港特别行政区</option>
+                <option value="820000">澳门特别行政区</option>
+              </select>
+              <select class="search_option_select_half select_city">
+                <option value selected="selected"></option>
+              </select>
+            </div>
+            <div class="search_line_half">
+              <div class="search_option_text_mid">薪资(千/月)</div>
+              <input class="search_option_input" id="salary_min" type="text" name="salary_min">-<input class="search_option_input" id="salary_max" type="text" name="salary_max">
+            </div>
+          </div>
+        </div>
+        <ul class="list_title">
+          <li class="list_title_column">职位名</li>
+          <li class="list_title_column">公司名</li>
+          <li class="list_title_column_small">工作地点</li>
+          <li class="list_title_column_small">薪资</li>
+          <li class="list_title_column_small">发布时间</li>
+        </ul>
+        <% for (var i in offerList){ %>
+        <ul class="list_row">
+          <input type="hidden" class="hidden_offerId" value="<%= offerList[i]._id %>" disabled="disabled">
+          <li class="list_column"><a href="/common/offer_browse?_id=<%= offerList[i]._id %>"><%= offerList[i].offername %></a></li>
+          <li class="list_column"><a href="/company/offer_browse?_id=<%= offerList[i]._id %>"><%= offerList[i].companyname %></a></li>
+          <li class="list_column_small"><%= offerList[i].location_str %></li>
+          <li class="list_column_small salary"><%= offerList[i].salary[0]%>~<%= offerList[i].salary[1]%>千/月</li>
+          <li class="list_column_small"><%= offerList[i].editdate.Format("MM-dd") %></li>
+        </ul>
+        <% } %>
+      </div>
+      <div class="page_box">
+        <div class="pre_page_btn">
+          &nbsp;
+          <% if (page > 1){ %>
+          <a onclick="prevPage(<%= page %>)" style="cursor: pointer;">上一页</a>
+          <% } %>
+        </div>
+        <div class="page_text">
+          <a><%= page %></a>
+        </div>
+        <div class="next_page_btn">
+          <% if (page < maxpage || true){ %>
+          <a onclick="nextPage(<%= page %>)" style="cursor: pointer;">下一页</a>
+          <% } %>
+          &nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
+  </body>
+</html>

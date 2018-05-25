@@ -1,5 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var staticModel = require('./static_db.js');
 
 var Schema = mongoose.Schema;
 var resumeSchema = new Schema({
@@ -54,10 +55,18 @@ var resumeSchema = new Schema({
 		required:[true, '请选择所在地'],
 		match:[/^(0[1-9]|[1-9]\d){2}00$/, '请确认所在地无误'],
 	},
+	location_str:{
+		type:String,
+		required:true,
+	},
 	job:{
 		type:String,
 		required:[true, '请选择岗位'],
 		match:[/^(0[1-9]|[1-9]\d){3}$/, '请确认岗位无误'],
+	},
+	job_str:{
+		type:String,
+		required:true,
 	},
 	salary:{
 		type:[Number],
@@ -155,13 +164,62 @@ exports.listByOwner = function(reqData, callback){
 exports.createResume = function(reqData, callback){
 	var Data = reqData;
 	Data['fullname'] = Data.owner+'.'+Data.resumename;
-	resumeModel.create(Data, function(err, data){
-		if (err){
-			callback(err);
-		}else {
-			callback('ok');
-		}
-	});
+	if(Data.location){
+		staticModel.showCity(Data.location, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				Data['location_str'] = staticModel.showProvince(Data.location)+'-'+data.name;
+				if(Data.job){
+					staticModel.showJob(Data.job, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							Data['job_str'] = data.name;
+							resumeModel.create(Data, function(err, data){
+								if (err){
+									callback(err);
+								}else {
+									callback('ok');
+								}
+							});
+						}
+					});
+				}else {
+					resumeModel.create(Data, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							callback('ok');
+						}
+					});
+				}
+			}
+		});
+	}else if(Data.job){
+		staticModel.showJob(Data.job, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				Data['job_str'] = data.name;
+				resumeModel.create(Data, function(err, data){
+					if (err){
+						callback(err);
+					}else {
+						callback('ok');
+					}
+				});
+			}
+		});
+	}else {
+		resumeModel.create(Data, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				callback('ok');
+			}
+		});
+	}
 };
 
 exports.findById = function(reqData, callback){
@@ -179,17 +237,78 @@ exports.modById = function(reqData, callback){
 	if(Data.owner&&Data.resumename){
 		Data['fullname'] = Data.owner+'.'+Data.resumename;
 	}
-	resumeModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
-		if (err){
-			callback(err);
-		}else {
-			if(data.n == 0){
-				callback('user error');
+	if(Data.location){
+		staticModel.showCity(Data.location, function(err, data){
+			if (err){
+				callback(err);
 			}else {
-				callback('ok');
+				Data['location_str'] = staticModel.showProvince(Data.location)+'-'+data.name;
+				if(Data.job){
+					staticModel.showJob(Data.job, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							Data['job_str'] = data.name;
+							resumeModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+								if (err){
+									callback(err);
+								}else {
+									if(data.n == 0){
+										callback('user error');
+									}else {
+										callback('ok');
+									}
+								}
+							});
+						}
+					});
+				}else{
+					resumeModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+						if (err){
+							callback(err);
+						}else {
+							if(data.n == 0){
+								callback('user error');
+							}else {
+								callback('ok');
+							}
+						}
+					});
+				}
 			}
-		}
-	});
+		});
+	}else if(Data.job){
+		staticModel.showJob(Data.job, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				Data['job_str'] = data.name;
+				resumeModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+					if (err){
+						callback(err);
+					}else {
+						if(data.n == 0){
+							callback('user error');
+						}else {
+							callback('ok');
+						}
+					}
+				});
+			}
+		});
+	}else {
+		resumeModel.update({_id: Data._id, owner: reqData.username}, {$set: Data},  {runValidators: true}, function(err, data){
+			if (err){
+				callback(err);
+			}else {
+				if(data.n == 0){
+					callback('user error');
+				}else {
+					callback('ok');
+				}
+			}
+		});
+	}
 };
 
 exports.removeResume = function(reqData, callback){

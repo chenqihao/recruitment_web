@@ -44,13 +44,13 @@
       <div class="basic_information">
         <div class="big_name"><%= resumeData.realname %></div>
         <div><% if(resumeData.sex == 'male'){ %>男<% }else { %>女<% } %>
-          &nbsp;|&nbsp;<%= resumeData.age %>岁</div>
+          &nbsp;|&nbsp;<%= resumeData.age %>岁&nbsp;|&nbsp;现居住地：<%= resumeData.location_str %></div>
         <div id="location_text"></div>
         <div>e-mail：<%= resumeData.email %></div>
       </div>
       <div class="sub_title">求职意向</div>
       <div class="text_line"><span class="attribute_name">工作性质：</span><span class="attribute_value"><% if(resumeData.job_type == 'fulltime'){ %>全职<% }else if(resumeData.job_type == 'parttime'){ %>兼职<% }else if(resumeData.job_type == 'intern'){ %>实习<% }else if(resumeData.job_type == 'fullOrPart'){ %>全/兼职<% } %></span></div>
-      <div class="text_line"><span class="attribute_name">期望行业：</span><span class="attribute_value" id="job_text"></span></div>
+      <div class="text_line"><span class="attribute_name">期望行业：</span><span class="attribute_value"><%= resumeData.job_str %></span></div>
       <div class="text_line"><span class="attribute_name">期望月薪：</span><span class="attribute_value"><%= resumeData.salary[0]*1000 %>~<%= resumeData.salary[1]*1000 %>元/月</span></div>
       <div class="sub_title">自身情况</div>
       <div class="text_line"><span class="attribute_name">工作经验：</span><span class="attribute_value"><% if(resumeData.experience == 0){ %>无<%}else{%><%=resumeData.experience%>年<%}%></span></div>
@@ -85,29 +85,5 @@
       </div>
     </div>
     <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
-    <script>
-        $.get('/index/show_city?number='+"<%=resumeData.location%>", function(data, status){
-          if(status == 'success'){
-            if(data.flag == 1){
-              $("#location_text").text('现居住地：'+data.province+'-'+data.status.name);
-            }else {
-              alert(data.status);
-            }
-          }else {
-            alert('get failed');
-          }
-        });
-        $.get('/index/show_job?number='+"<%=resumeData.job%>", function(data, status){
-          if(status == 'success'){
-            if(data.flag == 1){
-              $("#job_text").text(data.status.name);
-            }else {
-              alert(data.status);
-            }
-          }else {
-            alert('get failed');
-          }
-        });
-    </script>
   </body>
 </html>

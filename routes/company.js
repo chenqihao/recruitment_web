@@ -17,7 +17,7 @@ router.get('/offerlist', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'company'){
 		offerModel.listByOwner({owner: req.session.user.username}, function(err, data){
 			if (err){
-				res.redirect('/404');
+				res.json(err);
 			}else {
 				var urlData = url.parse(req.url, true).query;
 				var page = urlData.page;

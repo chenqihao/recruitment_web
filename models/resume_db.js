@@ -140,7 +140,15 @@ var resumeSchema = new Schema({
 	},
 	rewards_punishments:{
 		type:String
-	}
+	},
+	deliverer:{
+		type:[{
+			_id:{type:String},
+			deliverer_companyname:{type:String},
+			deliverer_offername:{type:String},
+			isCollected:{type:Boolean, default:false},
+		}],
+	},
 });
 
 // resumeSchema.pre('save', function (next) {
@@ -152,7 +160,7 @@ var resumeModel = mongoose.model('resumes', resumeSchema);
 
 
 exports.listByOwner = function(reqData, callback){
-	resumeModel.find({owner: reqData.owner}, ['_id', 'isDefault', 'isPublic', 'resumename'], {sort:{_id: 1}}, function(err, data){
+	resumeModel.find(reqData, ['_id', 'isDefault', 'isPublic', 'resumename', 'realname', 'deliverer'], {sort:{_id: 1}}, function(err, data){
 		if (err){
 			callback(err, null);
 		}else {
@@ -326,6 +334,54 @@ exports.removeResume = function(reqData, callback){
 	});
 };
 
+exports.deliver = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.update({_id: Data._id}, {
+		$addToSet:{deliverer:{
+			_id:Data.deliverer_id,
+			deliverer_companyname:Data.deliverer_companyname,
+			deliverer_offername:Data.deliverer_offername,
+		}}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.removeDeliver = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.update({_id: Data._id}, {
+		$pull:{deliverer:{
+			_id:Data.deliverer_id,
+		}}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.changeCollect = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.update({
+		_id: Data._id,
+		'deliverer._id':Data.deliverer_id
+	}, {
+		$set:{'deliverer.$.isCollected':Data.isCollected}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
 exports.search = function(reqData, callback){
 	var Data = {isPublic: true};
 	var sortRul = reqData.sortRul;
@@ -385,4 +441,19 @@ exports.search = function(reqData, callback){
 			}
 		}
 	);
+};
+
+exports.findByOfferId = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.find({'deliverer._id':Data}, {
+		'_id':1,
+		'realname':1,
+		'deliverer.$':1,
+	}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
 };

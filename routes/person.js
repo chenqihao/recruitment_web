@@ -7,18 +7,12 @@ var personModel = require('../models/person_mgmt_db.js');
 var offerModel = require('../models/offer_db.js');
 var companyModel = require('../models/company_mgmt_db.js');
 
-// router.get('/', function(req, res){
-// 	var urlData = url.parse(req.url, true).query;
-// 	resumeModel.createResume(urlData, function(err){
-// 		res.json(err);
-// 	});
-// });
 
 router.get('/resumelist', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'person'){
 		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
 			if (err){
-				res.redirect('/404');
+				res.json(err);
 			}else {
 				var urlData = url.parse(req.url, true).query;
 				var page = urlData.page;
@@ -39,9 +33,19 @@ router.get('/resumelist', function(req, res){
 	}
 });
 
-// router.get('/test', function(req, res){
-// 	res.json(url.parse(req.url, true).query);
-// });
+router.get('/resumelist_unrender', function(req, res){
+	if(req.session.user && req.session.user.usertype == 'person'){
+		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
+			if (err){
+				res.json({status:err, flag:0});
+			}else {
+				res.json({status:data, flag:1});
+			}
+		});
+	}else {
+		res.json({status:'user error', flag:0});
+	}
+});
 
 
 router.get('/modify_resume', function(req, res){
@@ -300,7 +304,7 @@ router.get('/offer_browse', function(req, res){
 				if (err){
 					res.json(err);
 				}else {
-					if (data != null ){
+					if (data != null){
 						if (data.isApproved){
 							res.render('offer_browse', {
 								title:'职位浏览',
@@ -321,6 +325,188 @@ router.get('/offer_browse', function(req, res){
 	}
 });
 
+router.post('/deliver_resume', function(req, res){
+	if(req.session.user && req.session.user.usertype == 'person'){
+		offerModel.findById({_id:req.body._id}, function(err, data){
+			if(err){
+				res.json({status:err, flag:0});
+			}else {
+				var delivererData = data.deliverer;
+				resumeModel.listByOwner({owner:req.session.user.username}, function(err, data){
+					if(err){
+						res.json({status:err, flag:0});
+					}else {
+						var isRepeated = false;
+						for (var i in data){
+							for (var j in delivererData){
+								if (data[i]._id == delivererData[j]._id){
+									isRepeated = true;
+									break;
+									break;
+								}
+							}
+						}
+						if(isRepeated){
+							res.json({status:'该职位已经投过简历', flag:0});
+						}else {
+							offerModel.deliver({
+								Data:{
+									_id:req.body._id,
+									deliverer_id:req.body.deliverer_id,
+									deliverer_resumename:req.body.deliverer_resumename,
+									deliverer_realname:req.body.deliverer_realname,
+								},
+							}, function(status){
+								if(status == 'ok'){
+									res.json({status:status, flag:1});
+								}else {
+									res.json({status:status, flag:0});
+								}
+							});
+						}
+					}
+				});
+			}
+		});
+	}else {
+		res.json({status:'未登录', flag:0});
+	}
+});
+
+router.post('/remove_deliver', function(req, res){
+	if(req.session.user){
+		offerModel.removeDeliver({
+			Data:{
+				_id:req.body._id,
+				deliverer_id:req.body.deliverer_id,
+			},
+		}, function(status){
+			if(status == 'ok'){
+				res.json({status:status, flag:1});
+			}else {
+				res.json({status:status, flag:0});
+			}
+		});
+	}else {
+		res.json({status:'未登录', flag:0});
+	}
+});
+
+router.get('/my_offer_apply', function(req, res){
+	if(req.session.user&&req.session.user.usertype == 'person'){
+		resumeModel.listByOwner({owner: req.session.user.username}, function(err, data){
+			if(err){
+				res.json(err);
+			}else {
+				var arrayData = new Array();
+				var urlData = url.parse(req.url, true).query;
+				var page = urlData.page;
+				if (page == null){
+					page = 1;
+				}
+				for(var i in data){
+					arrayData.push(data[i]._id);
+				}
+				if(arrayData.length != 0){
+					offerModel.findByResumeId({
+						Data:arrayData,
+					}, function(err, data){
+						if(err){
+							res.json(err);
+						}else {
+							res.render('offer_apply', {
+								title:'我的投递',
+								userdata: req.session.user,
+								offerList: data.slice((page-1)*10, page*10),
+								page: page,
+								maxpage: parseInt((data.length-1)/10)+1,
+							});
+						}
+					});
+				}else {
+					res.render('offer_apply', {
+						title:'我的投递',
+						userdata: req.session.user,
+						offerList: null,
+						page: page,
+						maxpage: 1,
+					});
+				}
+			}
+		});
+	}else {
+		res.redirect('/index');
+	}
+});
+
+router.get('/rcv_resume_apply', function(req, res){
+	if(req.session.user&&req.session.user.usertype == 'person'){
+		resumeModel.listByOwner({owner:req.session.user.username}, function(err, data){
+			if(err){
+				res.json(err);
+			}else{
+				var urlData = url.parse(req.url, true).query;
+				var page = urlData.page;
+				if (page == null){
+					page = 1;
+				}
+				var arrayData = new Array();
+				for (var i in data){
+					for (var j = 0; j < data[i].deliverer.length; j++){
+						arrayData.push({
+							_id:data[i]._id,
+							deliverer:[data[i].deliverer[j]],
+						});
+					}
+				}
+				res.render('resume_apply', {
+					title:'收到的投递',
+					userdata: req.session.user,
+					resumeList: arrayData.slice((page-1)*10, page*10),
+					page: page,
+					maxpage: parseInt((arrayData.length-1)/10)+1,
+				});
+			}
+		});
+	}else{
+		res.redirect('/index');
+	}
+});
+
+router.post('/remove_resume_apply', function(req, res){
+	if(req.session.user&&req.session.user.usertype != 'admin'){
+		resumeModel.removeDeliver({
+			Data:{
+				_id: req.body._id,
+				deliverer_id: req.body.deliverer_id,
+			}
+		}, function(status){
+			if(status == 'ok'){
+				res.json({status:status, flag:1});
+			}else {
+				res.json({status:status, flag:0});
+			}
+		});
+	}else{
+		res.json({status:'user error', flag:0});
+	}
+});
+
+router.post('/change_collect', function(req, res){
+	if(req.session.user&&req.session.user.usertype == 'person'){
+		resumeModel.changeCollect({
+			Data:req.body
+		}, function(status){
+			if(status == 'ok'){
+				res.json({status:status, flag:1});
+			}else {
+				res.json({status:status, flag:0});
+			}
+		});
+	}else{
+		res.json({status:'user error', flag:0});
+	}
+});
 
 Date.prototype.Format = function(fmt) {
      var o = {

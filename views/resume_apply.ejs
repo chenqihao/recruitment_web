@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title><%= title %></title>
+    <link href="/stylesheets/index.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../javascripts/jquery.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_index.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_apply.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="big_title"><%= title %></div>
+      <div class="user_area">
+        <div class="username_area"><%= userdata.username %></div>
+        <input type="hidden" class="hidden_username" value="<%= userdata.username %>" disabled="disabled">
+        <input type="hidden" class="hidden_usertype" value="<%= userdata.usertype %>" disabled="disabled">
+        <div class="toggle_box" style="display:none;">
+          <div class="toggle_block modinfo_area admin_need_hide">修改信息</div>
+          <div class="toggle_block chgpwd_area admin_need_hide">修改密码</div>
+          <div class="toggle_block logout_area">退出登录</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav_bar">
+      <div class="nav_bar_blank"></div>
+      <% if (userdata.usertype == 'person'){ %>
+      <div class="nav_bar_select redirect_resume_button">简历管理</div>
+      <div class="nav_bar_select redirect_jobsearch_button">职位搜索</div>
+      <div class="nav_bar_select redirect_apprecord_button" style="border:0; border-bottom:2px solid white; color:white;">申请记录</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_my_apprecord_button">我的申请</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_rcv_apprecord_button">收到的申请</div>
+      </div>
+      <% }else if (userdata.usertype == 'company') { %>
+      <div class="nav_bar_select redirect_jobmgmt_button">职位管理</div>
+      <div class="nav_bar_select redirect_appmgmt_button" style="border:0; border-bottom:2px solid white; color:white;">应聘管理</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_my_appmgmt_button">我的投递</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_rcv_appmgmt_button">收到的应聘</div>
+      </div>
+      <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
+      <% } %>
+    </div>
+    <div class="body">
+      <div class="resumelist_box">
+        <% if (userdata.usertype == 'person'){ %>
+        <ul class="list_title">
+          <li class="list_title_column">职位名</li>
+          <li class="list_title_column">公司名</li>
+          <li class="list_title_column">收藏</li>
+          <li class="list_title_column">操作</li>
+        </ul>
+        <% for (var i in resumeList){ %>
+        <ul class="list_row">
+          <li class="list_column"><a href="/person/offer_browse?_id=<%= resumeList[i].deliverer[0]._id %>"><%= resumeList[i].deliverer[0].deliverer_offername %></a></li>
+          <li class="list_column"><a href="/common/offer_search?companyname=<%= resumeList[i].deliverer[0].deliverer_companyname %>"><%= resumeList[i].deliverer[0].deliverer_companyname %></a></li>
+          <li class="list_column">
+            <% if(resumeList[i].deliverer[0].isCollected){ %>
+            <button class="select_button collect_status" style="background-color:rgb(0,188,212)" onclick="resumeCollectOff('<%= resumeList[i]._id %>','<%= resumeList[i].deliverer[0]._id %>')">是</button>
+            <% }else { %>
+            <button class="select_button collect_status" style="background-color:#BBBBBB" onclick="resumeCollectOn('<%= resumeList[i]._id %>','<%= resumeList[i].deliverer[0]._id %>')">否</button>
+            <% } %>
+          </li>
+          <li class="list_column"><a class="opt_click remove_resume_deliver_btn" onclick="removeResumeApply('<%= resumeList[i]._id %>','<%= resumeList[i].deliverer[0]._id %>')">删除</a></li>
+        </ul>
+        <% } %>
+
+        <% }else if (userdata.usertype == 'company') { %>
+        <ul class="list_title">
+          <li class="list_title_column">招募者</li>
+          <li class="list_title_column">职位名</li>
+          <li class="list_title_column">操作</li>
+        </ul>
+        <% for (var i in resumeList){ %>
+        <ul class="list_row">
+          <li class="list_column"><a href="/company/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].realname %></a></li>
+          <li class="list_column"><a href="/company/offer_browse?_id=<%= resumeList[i].deliverer[0]._id %>"><%= resumeList[i].deliverer[0].deliverer_offername %></a></li>
+          <li class="list_column"><a class="opt_click remove_resume_deliver_btn"  onclick="removeResumeApply('<%= resumeList[i]._id %>','<%= resumeList[i].deliverer[0]._id %>')">撤销</a></li>
+        </ul>
+        <% } %>
+        <% } %>
+      </div>
+      <div class="page_box">
+        <div class="pre_page_btn">
+          &nbsp;
+          <% if (page > 1){ %>
+          <a href="?page=<%= parseInt(page)-1 %>">上一页</a>
+          <% } %>
+        </div>
+        <div class="page_text">
+          <a "><%= page %></a>
+        </div>
+        <div class="next_page_btn">
+          <% if (page < maxpage){ %>
+          <a href="?page=<%= parseInt(page)+1 %>">下一页</a>
+          <% } %>
+          &nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="footer">developed by cqh&nbsp;&nbsp;&nbsp;&nbsp;</div>
+  </body>
+</html>

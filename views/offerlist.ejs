@@ -29,6 +29,10 @@
       <div class="nav_bar_blank"></div>
       <div class="nav_bar_select redirect_jobmgmt_button" style="border:0; border-bottom:2px solid white; color:white;">职位管理</div>
       <div class="nav_bar_select redirect_appmgmt_button">应聘管理</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_my_appmgmt_button">我的投递</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_rcv_appmgmt_button">收到的应聘</div>
+      </div>
       <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
     </div>
     <div class="body">
@@ -46,9 +50,9 @@
           <li class="list_column"><%= offerList[i].editdate.Format("yyyy-MM-dd hh:mm:ss") %></li>
           <li class="list_column">
             <% if(offerList[i].isApproved){ %>
-            <button class="select_button approve_status" style="background:rgb(0,188,212)">是</button>
+            <button class="select_button approve_status" style="background-color:rgb(0,188,212)">是</button>
             <% }else { %>
-            <button class="select_button approve_status" style="background:#BBBBBB" title="<%= offerList[i].rejected_reason %>">否</button>
+            <button class="select_button approve_status" style="background-color:#BBBBBB" title="<%= offerList[i].rejected_reason %>">否</button>
             <% } %>
           </li>
           <li class="list_column"><a class="opt_click modify_offer_btn">修改</a><a style="color: black">|<a class="opt_click refresh_offer_btn">更新</a><a style="color: black">|</a><a class="opt_click remove_offer_btn">删除</a></li>

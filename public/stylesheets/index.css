@@ -45,7 +45,7 @@ a:hover {
 }
 .user_area {
 	width:120px;
-	height: 48px;
+	/*height: 48px;*/
 	margin-right: 2%;
 	line-height: 48px;
 	font-size: 18px;
@@ -64,11 +64,10 @@ a:hover {
 }
 .toggle_box {
 	width: 100%;
-	height: 114px;
+	height: 84px;
 	line-height: 28px;
 	font-size: 16px;
 }
-
 .toggle_block {
 	width: 100%;
 	height: 28px;
@@ -108,18 +107,31 @@ a:hover {
 	-webkit-box-sizing:border-box;
 }
 .nav_bar_select:hover {
-	color:white;
+	color: white;
+}
+.nav_bar_slide_box {
+	float: left;
+	height: 100%;
+}
+.nav_bar_slide_select {
+	display: none;
+	color: white;
+	background-color: rgb(144,222,222);
+}
+.nav_bar_slide_select:hover {
+	color: rgb(144,222,222);
+	background-color: white;
 }
 .body {
 	width: 100%;
 	/*width: 1500px;*/
 	height: 615px;
-	padding-top: 40px;
+	padding-top: 50px;
 }
 .body_flexible {
 	width: 100%;
 	/*width: 1500px;*/
-	min-height: 645px;
+	min-height: 655px;
 	padding-top: 10px;
 }
 .body_msg {
@@ -152,7 +164,7 @@ a:hover {
 	padding: 0 5%;
 }
 .search_box {
-	height: 750px;
+	min-height: 615px;
 	margin: 0 5%;
 	padding: 0 5%;
 }
@@ -167,15 +179,16 @@ a:hover {
 	-webkit-box-sizing:border-box;
 	background-color: #FAFAFA;
 	color: #999999;
+	display: flex;
 }
 .list_title_column {
-	width: 25%;
+	width: 75%;
 	height: 100%;
 	line-height: 30px;
 	text-align: center;
 }
 .list_title_column_small {
-	width: 16.6%;
+	width: 50%;
 	height: 100%;
 	line-height: 30px;
 	text-align: center;
@@ -191,13 +204,13 @@ a:hover {
 	display: flex;
 }
 .list_column {
-	width: 25%;
+	width: 75%;
 	height: 100%;
 	line-height: 42px;
 	text-align: center;
 }
 .list_column_small {
-	width: 16.6%;
+	width: 50%;
 	height: 100%;
 	line-height: 42px;
 	text-align: center;
@@ -538,4 +551,35 @@ textarea {
 .search_option_blank.salary{
 	width: 2%;
 	text-align: center;
+}
+.float_box {
+	background-color: white;
+	position:fixed;
+	-moz-box-shadow:5px 5px 10px #BBBBBB;
+	-webkit-box-shadow:5px 5px 10px #BBBBBB;
+	box-shadow:5px 5px 10px #BBBBBB;
+	width: 400px;
+	height: 152px;
+	display: none;
+	padding: 20px;
+}
+.float_box_title {
+	color: rgb(0,188,212);
+	font-size: 20px;
+	height: 40px;
+	line-height: 40px;
+	margin-bottom: 10px;
+}
+.float_box_select {
+	width: 100%;
+	padding-left: 10px;
+	height: 32px;
+	font-size: 18px;
+	margin-bottom: 20px;
+	border: 1px solid rgb(0,188,212);
+	border-radius: 2px;
+	outline: none;
+}
+.button_line.float{
+	width: 60%;
 }

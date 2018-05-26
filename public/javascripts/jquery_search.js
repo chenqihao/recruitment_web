@@ -62,8 +62,10 @@ function nextPage(page){
 	var url;
 	if (window.location.href.indexOf('page') != -1){
 		url = window.location.href.replace(/page=\d+(?:\b|&)/i, 'page='+nextpage);
-	}else {
+	}else if (window.location.href.indexOf('?') != -1){
 		url = window.location.href+'&page='+nextpage;
+	}else {
+		url = window.location.href+'?page='+nextpage;
 	}
 	window.location.href = url;
 }
@@ -73,8 +75,10 @@ function prevPage(page){
 	var url;
 	if (window.location.href.indexOf('page') != -1){
 		url = window.location.href.replace(/page=\d+(?:\b|&)/i, 'page='+prevpage);
-	}else {
+	}else if(window.location.href.indexOf('?') != -1){
 		url = window.location.href+'&page='+prevpage;
+	}else {
+		url = window.location.href+'?page='+prevpage;
 	}
 	window.location.href = url;
 }

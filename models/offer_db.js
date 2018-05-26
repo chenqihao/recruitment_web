@@ -136,12 +136,20 @@ var offerSchema = new Schema({
 		trim:true,
 		default:'未审核',
 	},
+	deliverer:{
+		type:[{
+			_id:{type:String},
+			deliverer_realname:{type:String},
+			deliverer_resumename:{type:String},
+			isCollected:{type:Boolean, default:false},
+		}],
+	},
 });
 
 var offerModel = mongoose.model('offers', offerSchema);
 
 exports.listByOwner = function(reqData, callback){
-	offerModel.find({owner: reqData.owner}, ['_id', 'offername', 'editdate', 'rejected_reason', 'salary', 'companyname', 'location_str'], {sort:{_id: 1}}, function(err, data){
+	offerModel.find(reqData, ['_id', 'offername', 'editdate', 'rejected_reason', 'companyname', 'deliverer'], {sort:{_id: 1}}, function(err, data){
 		if (err){
 			callback(err, null);
 		}else {
@@ -310,6 +318,68 @@ exports.removeOffer = function(reqData, callback){
 	});
 };
 
+exports.adminApprove = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.update({_id: Data._id}, {$set:{
+		isApproved: Data.isApproved,
+		rejected_reason: rejected_reason,}
+	},{runValidators: true}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.deliver = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.update({_id: Data._id}, {
+		$addToSet:{deliverer:{
+			_id:Data.deliverer_id,
+			deliverer_resumename:Data.deliverer_resumename,
+			deliverer_realname:Data.deliverer_realname,
+		}}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.removeDeliver = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.update({_id: Data._id}, {
+		$pull:{deliverer:{
+			_id:Data.deliverer_id,
+		}}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.changeCollect = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.update({
+		_id: Data._id,
+		'deliverer._id':Data.deliverer_id
+	}, {
+		$set:{'deliverer.$.isCollected':Data.isCollected}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
 exports.search = function(reqData, callback){
 	var Data = {isApproved: true};
 	var sortRul = reqData.sortKey;
@@ -367,4 +437,20 @@ exports.search = function(reqData, callback){
 			}
 		}
 	);
+};
+
+exports.findByResumeId = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.find({'deliverer._id':Data}, {
+		'_id':1,
+		'offername':1,
+		'companyname':1,
+		'deliverer.$':1,
+	}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
 };

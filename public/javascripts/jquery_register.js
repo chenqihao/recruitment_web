@@ -157,6 +157,9 @@ $(document).ready(function(){
 						}
 					}
 				}else if (data.flag == 1){
+					alert('注册成功，即将跳转到主页');
+					window.location.href = "/index";
+				}else if (data.flag == 3){
 					alert('注册成功，请等待管理员审核');
 					window.location.href = "/login";
 				}else{

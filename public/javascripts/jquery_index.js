@@ -49,6 +49,9 @@ $(document).ready(function(){
 		};
 		$.StandardPost(postUrl,postData);
 	});
+	$(".big_title").click(function(){
+		window.location.href = '/index';
+	});
 	$(".redirect_resume_button").click(function(){
 		window.location.href = '/person/resumelist';
 	});

@@ -33,11 +33,15 @@ router.post('/',function(req, res){
 	}
 	accMgmtModel.register(registerData, function(status){
 		if (status == 'ok'){
-			// req.session.user = {
-			// 	username: registerData.username,
-			// 	usertype: registerData.usertype
-			// };
-			res.json({status:status, flag:1});
+			if (registerData.usertype == 'person'){
+				req.session.user = {
+					username: registerData.username,
+					usertype: registerData.usertype
+				};
+				res.json({status:status, flag:1});
+			}else{
+				res.json({status:status, flag:3});
+			}
 		}else if (status.code == 11000){
 			if (registerData.usertype == 'person'){
 				if (status.errmsg.indexOf('username') > 0){

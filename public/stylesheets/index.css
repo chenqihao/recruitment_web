@@ -163,6 +163,12 @@ a:hover {
 	margin: 0 5%;
 	padding: 0 5%;
 }
+.registerlist_box {
+	height: 575px;
+	/*text-align: center;*/
+	margin: 0 5%;
+	padding: 0 5%;
+}
 .search_box {
 	min-height: 615px;
 	margin: 0 5%;
@@ -582,4 +588,11 @@ textarea {
 }
 .button_line.float{
 	width: 60%;
+}
+.float_box.admin {
+	height: 200px;
+}
+#textarea_rejected_reason {
+	height: 80px;
+	margin-bottom: 20px;
 }

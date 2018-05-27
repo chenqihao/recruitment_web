@@ -33,10 +33,10 @@ router.post('/',function(req, res){
 	}
 	accMgmtModel.register(registerData, function(status){
 		if (status == 'ok'){
-			req.session.user = {
-				username: registerData.username,
-				usertype: registerData.usertype
-			};
+			// req.session.user = {
+			// 	username: registerData.username,
+			// 	usertype: registerData.usertype
+			// };
 			res.json({status:status, flag:1});
 		}else if (status.code == 11000){
 			if (registerData.usertype == 'person'){
@@ -58,28 +58,10 @@ router.post('/',function(req, res){
 			}
 		}else {
 			res.json({status:status, flag:2});
-			// console.log('register post test');
-			// console.log(status.errors);
 		}
 	});
 });
 
-
-router.get('/asd', function(req, res){
-	// console.log(req.session.user);
-	var md5 = crypto.createHash('md5');
-	var registerData = {
-		username: 'test2',
-		password: md5.update('123').digest('hex'),
-		email: 'test2@qq.com',
-		realname: '张三',
-		IDnumber: '123456789',
-		usertype: 'person'
-	}
-	accMgmtModel.register(registerData, function(status){
-		res.json(status);
-	});
-});
 
 
 module.exports = router;

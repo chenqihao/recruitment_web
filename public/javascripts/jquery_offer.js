@@ -37,7 +37,7 @@ function offerModSubmit(){
 				for (var errPath in data.status.errors){
 					$(".error_"+errPath).text('×').attr("title", data.status.errors[errPath].message);
 				}
-				alert(JSON.stringify(data.status));
+				// alert(JSON.stringify(data.status));
 			}else {
 				alert('操作成功，即将返回到简历列表');
 				window.location.href = "/company/offerlist";

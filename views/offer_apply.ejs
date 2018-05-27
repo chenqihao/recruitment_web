@@ -81,7 +81,9 @@
             <button class="select_button collect_status" style="background-color:#BBBBBB" onclick="offerCollectOn('<%= offerList[i]._id %>','<%= offerList[i].deliverer[0]._id %>')">否</button>
             <% } %>
           </li>
-          <li class="list_column"><a class="opt_click remove_offer_deliver_btn" onclick="removeOfferApply('<%= offerList[i]._id %>','<%= offerList[i].deliverer[0]._id %>')">删除</a></li>
+          <li class="list_column">
+            <a class="opt_click remove_offer_deliver_btn" onclick="removeOfferApply('<%= offerList[i]._id %>','<%= offerList[i].deliverer[0]._id %>')">删除</a>
+          </li>
         </ul>
         <% } %>
         <% } %>

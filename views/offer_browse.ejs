@@ -44,9 +44,16 @@
       </div>
       <div class="nav_bar_select redirect_peoplesearch_button">人才检索</div>
       <% }else { %>
-      <div class="nav_bar_select redirect_infomgmt_button">信息管理</div>
       <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_offer_infocheck_button admin_infocheck">职位审核</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_reg_infocheck_button admin_infocheck">注册审核</div>
+      </div>
       <div class="nav_bar_select redirect_search_button">检索</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_offer_search_button admin_search">职位搜索</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_resume_search_button admin_search">简历搜索</div>
+      </div>
       <% } %>
     </div>
     <div class="body_flexible">
@@ -74,9 +81,16 @@
       <div class="text_block">详细地址：<%= offerData.address %><br><%= offerData.contact_information %></div>
       <div class="button_line">
         <% if(userdata.usertype == 'company') {%>
+        <% if(!offerData.isApproved){ %>
         <div class="index_btn" onclick="toOfferMod('<%= offerData._id %>')">修改</div>
+        <% } %>
         <% }else if(userdata.usertype == 'person'){ %>
         <div class="index_btn" onclick="toResumeDeliver()">投递</div>
+        <% }else{ %>
+        <% if(!offerData.isApproved){ %>
+        <div class="index_btn" onclick="toApprove('<%= offerData._id %>')">通过</div>
+        <% } %>
+        <div class="index_btn" onclick="toRejectBox()">不通过</div>
         <% } %>
         <div class="index_btn" onclick="javascript:history.back(-1);">返回</div>
       </div>
@@ -95,11 +109,11 @@
       </div>
     </div>
     <% }else if(userdata.usertype == 'admin'){ %>
-    <div class="float_box">
+    <div class="float_box admin">
       <div class="float_box_title">请输入审核未通过理由</div>
-      <input type="text" name="rejected_reason" id="rejected_reason">
+      <textarea maxlength="200" id="textarea_rejected_reason"></textarea>
       <div class="button_line float">
-        <div class="index_btn" onclick="toSubResumeDeliver('<%= offerData._id %>')">确认</div>
+        <div class="index_btn" onclick="toSubReject('<%= offerData._id %>')">确认</div>
         <div class="index_btn" onclick="cancelFloat()">取消</div>
       </div>
     </div>

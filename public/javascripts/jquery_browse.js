@@ -21,7 +21,7 @@ function toResumeDeliver(){
 				$(".select_resume").empty().append(str);
 				$(".hidden_realname").val(data.status[0].realname);
 			}else{
-				alert(data.status);
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');
@@ -44,7 +44,7 @@ function toOfferDeliver(){
 				$(".select_offer").empty().append(str);
 				$(".hidden_companyname").val(data.status[0].companyname);
 			}else{
-				alert(data.status);
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');
@@ -66,9 +66,9 @@ function toSubResumeDeliver(_id){
 		if(status == 'success'){
 			if(data.flag == 1){
 				alert('投递成功，即将跳转到我的投递');
-				window.location.href = '/person/resumeList';
+				window.location.href = '/person/my_offer_apply';
 			}else {
-				alert(data.status);
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');
@@ -86,9 +86,85 @@ function toSubOfferDeliver(_id){
 		if(status == 'success'){
 			if(data.flag == 1){
 				alert('投递成功，即将跳转到我的投递');
-				window.location.href = '/company/offerList';
+				window.location.href = '/company/my_resume_apply';
 			}else {
-				alert(data.status);
+				alert(JSON.stringify(data.status));
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+function toApprove(_id){
+	$.post('/admin/approve', {
+		_id:_id,
+	}, function(data, status){
+		if(status == 'success'){
+			if(data.flag == 1){
+				window.location.href = '/admin/offer_verify';
+			}else {
+				alert(JSON.stringify(data.status));
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+function toRejectBox(){
+	$(".float_box").css({
+		"top":(window.innerHeight-$(".float_box").height())/2+'px',
+		"left":(window.innerWidth-$(".float_box").width())/2+'px',
+	}).fadeIn(400);
+};
+
+function toSubReject(_id){
+	$.post('/admin/reject', {
+		_id:_id,
+		rejected_reason:$("#textarea_rejected_reason").val(),
+	}, function(data, status){
+		if(status == 'success'){
+			if(data.flag == 1){
+				window.location.href = '/admin/offer_verify';
+			}else {
+				if(data.status.errors){
+					alert(data.status.errors['rejected_reason'].message);
+				}else{
+					alert(JSON.stringify(data.status));
+				}
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+function toPrivatize(_id){
+	$.post('/admin/privatize', {
+		_id:_id,
+	}, function(data, status){
+		if(status == 'success'){
+			if(data.flag == 1){
+				window.location.href = '/common/resume_search';
+			}else {
+				alert(JSON.stringify(data.status));
+			}
+		}else {
+			alert('post failed');
+		}
+	});
+};
+
+function toDelete(_id){
+	$.post('/admin/delete_resume', {
+		_id:_id,
+	}, function(data, status){
+		if(status == 'success'){
+			if(data.flag == 1){
+				window.location.href = '/common/resume_search';
+			}else {
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');

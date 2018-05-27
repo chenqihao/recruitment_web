@@ -9,7 +9,7 @@
     <link href="/stylesheets/index.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="../javascripts/jquery.js"></script>
     <script type="text/javascript" src="../javascripts/jquery_index.js"></script>
-    <script type="text/javascript" src="../javascripts/jquery_resumelist.js"></script>
+    <script type="text/javascript" src="../javascripts/jquery_registerlist.js"></script>
   </head>
   <body>
     <div class="header">
@@ -27,48 +27,36 @@
     </div>
     <div class="nav_bar">
       <div class="nav_bar_blank"></div>
-      <div class="nav_bar_select redirect_resume_button" style="border:0; border-bottom:2px solid white; color:white;">简历管理</div>
-      <div class="nav_bar_select redirect_jobsearch_button">职位搜索</div>
-      <div class="nav_bar_select redirect_apprecord_button">申请记录</div>
+      <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
       <div class="nav_bar_slide_box">
-        <div class="nav_bar_select nav_bar_slide_select redirect_my_apprecord_button">我的申请</div>
-        <div class="nav_bar_select nav_bar_slide_select redirect_rcv_apprecord_button">收到的申请</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_offer_infocheck_button admin_infocheck">职位审核</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_reg_infocheck_button admin_infocheck">注册审核</div>
+      </div>
+      <div class="nav_bar_select redirect_search_button">检索</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_offer_search_button admin_search">职位搜索</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_resume_search_button admin_search">简历搜索</div>
       </div>
     </div>
     <div class="body">
-      <div class="resumelist_box">
+      <div class="registerlist_box">
         <ul class="list_title">
-          <li class="list_title_column">简历名称</li>
-          <li class="list_title_column">是否默认</li>
-          <li class="list_title_column">是否公开</li>
-          <li class="list_title_column">简历操作</li>
+          <li class="list_title_column">公司名</li>
+          <li class="list_title_column">公司法人</li>
+          <li class="list_title_column">公司类型</li>
+          <li class="list_title_column">审核操作</li>
         </ul>
-        <% for (var i in resumeList){ %>
+        <% for (var i in registerList){ %>
         <ul class="list_row">
-          <input type="hidden" class="hidden_resumeId" value="<%= resumeList[i]._id %>" disabled="disabled">
-          <li class="list_column"><a href="/person/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].resumename %></a></li>
+          <li class="list_column"><a><%= registerList[i].companyname %></a></li>
+          <li class="list_column"><a><%= registerList[i].representative %></a></li>
+          <li class="list_column"><a><%= registerList[i].address %></a></li>
           <li class="list_column">
-            <% if(resumeList[i].isDefault){ %>
-            <button class="select_button default_select" style="background-color:rgb(0,188,212)">是</button>
-            <% }else { %>
-            <button class="select_button default_select" style="background-color:#BBBBBB">否</button>
-            <% } %>
-          </li>
-          <li class="list_column">
-            <% if(resumeList[i].isPublic){ %>
-            <button class="select_button public_select" style="background-color:rgb(0,188,212)">是</button>
-            <% }else { %>
-            <button class="select_button public_select" style="background-color:#BBBBBB">否</button>
-            <% } %>
-          </li>
-          <li class="list_column">
-            <a class="opt_click modify_resume_btn">修改</a>
+            <a class="opt_click" onclick="toRegApprove('<%= registerList[i].username %>')">通过</a>
             <a style="color: black">|</a>
-            <a class="opt_click remove_resume_btn">删除</a></li>
+            <a class="opt_click" onclick="toRegDelete('<%= registerList[i].username %>')">不通过</a></li>
         </ul>
         <% } %>
-        <button class="list_btn" id="create_resume_button">新建
-        </button>
       </div>
       <div class="page_box">
         <div class="pre_page_btn">

@@ -76,11 +76,16 @@ router.get('/modify_offer', function(req, res){
 				}else {
 					if (data != null){
 						if (req.session.user.username == data.owner){
-							res.render('offer', {
-								title:'修改职位信息',
-								userdata: req.session.user,
-								offerData: data,
-							});
+							console.log(data.isApproved);
+							if(data.isApproved){
+								res.json('已审核通过的职位无法修改');
+							}else{
+								res.render('offer', {
+									title:'修改职位信息',
+									userdata: req.session.user,
+									offerData: data,
+								});
+							}
 						}else {
 							res.json('user error');
 						}
@@ -169,16 +174,26 @@ router.post('/create_offer', function(req, res){
 
 router.post('/modify_offer', function(req, res){
 	if(req.session.user && req.session.user.usertype == 'company'){
-		var offerData = req.body;
-		offerData['editdate'] = new Date();
-		offerData['isApproved'] = false;
-		offerData['salary'] = JSON.parse(offerData.salary);
-		offerData['rejected_reason'] = '未审核';
-		offerModel.modById({Data:offerData, username:req.session.user.username}, function(status){
-			if (status == 'ok'){
-				res.json({status:status, flag:1});
-			}else {
-				res.json({status:status, flag:0});
+		offerModel.findById({_id:req.body._id}, function(err, data){
+			if(err){
+				res.json({status:err, flag:0});
+			}else{
+				if(data.isApproved){
+					res.json({status:'已审核通过的职位无法修改', flag:0});
+				}else {
+					var offerData = req.body;
+					offerData['editdate'] = new Date();
+					offerData['isNeedVerify'] = true;
+					offerData['salary'] = JSON.parse(offerData.salary);
+					offerData['rejected_reason'] = '未审核';
+					offerModel.modById({Data:offerData, username:req.session.user.username}, function(status){
+						if (status == 'ok'){
+							res.json({status:status, flag:1});
+						}else {
+							res.json({status:status, flag:0});
+						}
+					});
+				}
 			}
 		});
 	}else {

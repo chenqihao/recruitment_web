@@ -73,7 +73,7 @@ $(document).ready(function(){
 					alert('更改密码成功，即将跳转到主页');
 					window.location.href = "/index";
 				}else {
-					alert(data.status);
+					alert(JSON.stringify(data.status));
 				}
 			}else{
 				alert('post failed');

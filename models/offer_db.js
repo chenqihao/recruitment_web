@@ -135,6 +135,7 @@ var offerSchema = new Schema({
 		type:String,
 		trim:true,
 		default:'未审核',
+		required:[true, '请输入未通过理由'],
 	},
 	deliverer:{
 		type:[{
@@ -144,12 +145,26 @@ var offerSchema = new Schema({
 			isCollected:{type:Boolean, default:false},
 		}],
 	},
+	isNeedVerify:{
+		type:Boolean,
+		default:true,
+	},
 });
 
 var offerModel = mongoose.model('offers', offerSchema);
 
 exports.listByOwner = function(reqData, callback){
-	offerModel.find(reqData, ['_id', 'offername', 'editdate', 'rejected_reason', 'companyname', 'deliverer'], {sort:{_id: 1}}, function(err, data){
+	offerModel.find(reqData, ['_id', 'offername', 'editdate', 'rejected_reason', 'companyname', 'deliverer', 'isApproved'], {sort:{_id: 1}}, function(err, data){
+		if (err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
+};
+
+exports.listByStatus = function(reqData, callback){
+	offerModel.find(reqData, ['_id', 'offername', 'editdate', 'companyname'], {sort:{editdate: 1}}, function(err, data){
 		if (err){
 			callback(err, null);
 		}else {
@@ -216,6 +231,7 @@ exports.createOffer = function(reqData, callback){
 		});
 	}
 };
+
 
 exports.findById = function(reqData, callback){
 	offerModel.findById(reqData._id, function(err, data){
@@ -321,8 +337,25 @@ exports.removeOffer = function(reqData, callback){
 exports.adminApprove = function(reqData, callback){
 	var Data = reqData.Data;
 	offerModel.update({_id: Data._id}, {$set:{
-		isApproved: Data.isApproved,
-		rejected_reason: rejected_reason,}
+		isApproved: true,
+		isNeedVerify: false,
+	}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.adminReject = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.update({_id: Data._id}, {$set:{
+		rejected_reason: Data.rejected_reason,
+		isApproved: false,
+		isNeedVerify: false,
+	}
 	},{runValidators: true}, function(err, data){
 		if(err){
 			callback(err);

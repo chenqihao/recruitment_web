@@ -32,6 +32,14 @@ $(document).ready(function(){
 	$(".redirect_appmgmt_button").click(function(){
 		$(".nav_bar_slide_select").animate({width:'toggle'},"fast");
 	});
+	$(".redirect_infocheck_button").click(function(){
+		$(".nav_bar_slide_select.admin_infocheck").animate({width:'toggle'},"fast");
+		$(".nav_bar_slide_select").not(".admin_infocheck").fadeOut("fast");
+	});
+	$(".redirect_search_button").click(function(){
+		$(".nav_bar_slide_select.admin_search").animate({width:'toggle'},"fast");
+		$(".nav_bar_slide_select").not(".admin_search").fadeOut("fast");
+	});
 	$(".chgpwd_area").click(function(){
 		var postUrl = '/chgpwd';
 		var postData = {
@@ -65,6 +73,18 @@ $(document).ready(function(){
 	$(".redirect_rcv_appmgmt_button").click(function(){
 		window.location.href = '/company/rcv_offer_apply';
 	});
+	$(".redirect_offer_infocheck_button").click(function(){
+		window.location.href = '/admin/offer_verify';
+	});
+	$(".redirect_reg_infocheck_button").click(function(){
+		window.location.href = '/admin/registerlist';
+	});
+	$(".redirect_offer_search_button").click(function(){
+		window.location.href = '/common/offer_search';
+	});
+	$(".redirect_resume_search_button").click(function(){
+		window.location.href = '/common/resume_search';
+	});
 });
 
 $.extend({
@@ -97,7 +117,7 @@ function industryChange(number){
 				$(".select_function").empty().append(str);
 				$(".select_job").empty();
 			}else {
-				alert(data.status);
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');
@@ -115,7 +135,7 @@ function functionChange(number){
 				}
 				$(".select_job").empty().append(str);
 			}else {
-				alert(data.status);
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');
@@ -133,7 +153,7 @@ function provinceChange(number){
 				}
 				$(".select_city").empty().append(str);
 			}else {
-				alert(data.status);
+				alert(JSON.stringify(data.status));
 			}
 		}else {
 			alert('post failed');

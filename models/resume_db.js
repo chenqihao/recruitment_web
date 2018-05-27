@@ -382,6 +382,32 @@ exports.changeCollect = function(reqData, callback){
 	});
 };
 
+exports.adminPrivatize = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.update({
+		_id:Data._id,
+	}, {$set:{
+		isPublic:false,
+	}}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.adminDelete = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.remove({_id: Data._id}, function(err, data){
+		if (err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
 exports.search = function(reqData, callback){
 	var Data = {isPublic: true};
 	var sortRul = reqData.sortRul;

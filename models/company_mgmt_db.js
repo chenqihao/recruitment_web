@@ -43,13 +43,18 @@ var companySchema = new Schema({
 		required:[true,'公司地址不能为空'],
 		trim:true,
 	},
+	isApproved:{
+		type:Boolean,
+		default:false,
+		required:true,
+	},
 });
 
 companySchema.index({username:1});
 var companyModel = mongoose.model('companys', companySchema);
 
 exports.companyLogin = function(reqData, callback){
-	companyModel.findOne({username:reqData.username}, function(err, data){
+	companyModel.findOne({username:reqData.username, isApproved:true}, function(err, data){
 		if (err){
 			callback(err);
 		}else if (data != null){
@@ -59,7 +64,7 @@ exports.companyLogin = function(reqData, callback){
 				callback('密码错误');
 			}
 		}else{
-			callback('用户不存在');
+			callback('用户不存在或未审核');
 		}
 	});
 };
@@ -126,6 +131,48 @@ exports.companyAccInfo = function(reqData, callback){
 		}else {
 			// data.err = 'ok';
 			callback('ok', data);
+		}
+	});
+};
+
+exports.adminApprove = function(reqData, callback){
+	companyModel.update({
+		username:reqData.username,
+	},{
+		$set:{isApproved: true}
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.adminReject = function(reqData, callback){
+	companyModel.remove({
+		username:reqData.username,
+		isApproved:false,
+	}, function(err, data){
+		if(err){
+			callback(err);
+		}else {
+			callback('ok');
+		}
+	});
+};
+
+exports.getRegList = function(reqData, callback){
+	companyModel.find({
+		isApproved:reqData.isApproved,
+	}, {
+		'password':0,
+		'email':0,
+	}, function(err, data){
+		if (err){
+			callback(err, null);
+		}else {
+			callback(null, data);
 		}
 	});
 };

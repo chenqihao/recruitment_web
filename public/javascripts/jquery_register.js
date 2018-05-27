@@ -136,10 +136,8 @@ $(document).ready(function(){
 			}
 		}
 		var postUrl = '/register';
-		// alert(JSON.stringify(postData));
 		$.post(postUrl, postData, function(data, status){
 			if (status == 'success'){
-				// alert(JSON.stringify(data));
 				if (data.flag == 0){
 					if (postData.usertype == 'person'){
 						if (data.errKey == 'username'){
@@ -159,14 +157,12 @@ $(document).ready(function(){
 						}
 					}
 				}else if (data.flag == 1){
-					alert('注册成功，即将跳转到主页');
-					window.location.href = "/index";
+					alert('注册成功，请等待管理员审核');
+					window.location.href = "/login";
 				}else{
 					for (var errPath in data.status.errors){
 						$(".error_"+errPath).text(data.status.errors[errPath].message);
-						// break;
 					}
-					//alert(JSON.stringify(data.status));
 				}
 			}else{
 				alert('post failed');

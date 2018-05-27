@@ -44,9 +44,16 @@
       </div>
       <div class="nav_bar_select redirect_peoplesearch_button" style="border:0; border-bottom:2px solid white; color:white;">人才检索</div>
       <% }else { %>
-      <div class="nav_bar_select redirect_infomgmt_button">信息管理</div>
       <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_offer_infocheck_button admin_infocheck">职位审核</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_reg_infocheck_button admin_infocheck">注册审核</div>
+      </div>
       <div class="nav_bar_select redirect_search_button" style="border:0; border-bottom:2px solid white; color:white;">检索</div>
+      <div class="nav_bar_slide_box">
+        <div class="nav_bar_select nav_bar_slide_select redirect_offer_search_button admin_search">职位搜索</div>
+        <div class="nav_bar_select nav_bar_slide_select redirect_resume_search_button admin_search">简历搜索</div>
+      </div>
       <% } %>
     </div>
     <div class="body_flexible">
@@ -166,7 +173,7 @@
         <% for (var i in resumeList){ %>
         <ul class="list_row">
           <input type="hidden" class="hidden_resumeId" value="<%= resumeList[i]._id %>" disabled="disabled">
-          <li class="list_column"><a href="/company/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].realname %></a></li>
+          <li class="list_column"><a href="/<%= userdata.usertype %>/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].realname %></a></li>
           <li class="list_column_small"><% if(resumeList[i].education == 11){ %>博士研究生<% }else if(resumeList[i].education == 12){ %>博士研究生结业<% }else if(resumeList[i].education == 13){ %>博士研究生肄业<% }else if(resumeList[i].education == 14){ %>硕士研究生<% }else if(resumeList[i].education == 15){ %>硕士研究生结业<% }else if(resumeList[i].education == 16){ %>硕士研究生肄业<% }else if(resumeList[i].education == 17){ %>研究生班<% }else if(resumeList[i].education == 18){ %>研究生班结业<% }else if(resumeList[i].education == 19){ %>研究生班肄业<% }else if(resumeList[i].education == 20){ %>大学本科<% }else if(resumeList[i].education == 21){ %>大学本科结业<% }else if(resumeList[i].education == 22){ %>大学本科肄业<% }else if(resumeList[i].education == 23){ %>大学普通班<% }else if(resumeList[i].education == 24){ %>大学专科<% }else if(resumeList[i].education == 25){ %>大学专科结业<% }else if(resumeList[i].education == 26){ %>大学专科肄业<% }else if(resumeList[i].education == 27){ %>高职<% }else if(resumeList[i].education == 28){ %>高职结业<% }else if(resumeList[i].education == 29){ %>高职肄业<% }else if(resumeList[i].education == 30){ %>中等专科<% }else if(resumeList[i].education == 31){ %>中等专科结业<% }else if(resumeList[i].education == 32){ %>中等专科肄业<% } %></li>
           <li class="list_column"><%= resumeList[i].school %>-<%= resumeList[i].major %></li>
           <li class="list_column_small"><% if(resumeList[i].experience == 0){ %>无<%}else{%><%=resumeList[i].experience%>年<%}%></li>

@@ -79,7 +79,9 @@
         <ul class="list_row">
           <li class="list_column"><a href="/company/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].realname %></a></li>
           <li class="list_column"><a href="/company/offer_browse?_id=<%= resumeList[i].deliverer[0]._id %>"><%= resumeList[i].deliverer[0].deliverer_offername %></a></li>
-          <li class="list_column"><a class="opt_click remove_resume_deliver_btn"  onclick="removeResumeApply('<%= resumeList[i]._id %>','<%= resumeList[i].deliverer[0]._id %>')">撤销</a></li>
+          <li class="list_column">
+            <a class="opt_click remove_resume_deliver_btn"  onclick="removeResumeApply('<%= resumeList[i]._id %>','<%= resumeList[i].deliverer[0]._id %>')">撤销</a>
+          </li>
         </ul>
         <% } %>
         <% } %>

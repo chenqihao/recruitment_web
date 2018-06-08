@@ -124,10 +124,11 @@ var resumeSchema = new Schema({
 		required:[true, '请输入学校'],
 		trim:true,
 	},
-	major:{
+	offername:{
 		type:String,
-		required:[true, '请输入专业'],
+		required:[true, '期望职位不能为空'],
 		trim:true,
+		maxlength:[18, '期望职位不能超过十八个字'],
 	},
 	pro_courses:{
 		type:String
@@ -455,7 +456,7 @@ exports.search = function(reqData, callback){
 			'realname':1,
 			'school':1,
 			'location_str':1,
-			'major':1,
+			'offername':1,
 			'education':1,
 			'experience':1,
 		}, {sort:{id:-1}},
@@ -475,6 +476,20 @@ exports.findByOfferId = function(reqData, callback){
 		'_id':1,
 		'realname':1,
 		'deliverer.$':1,
+	}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
+};
+
+exports.findDefaultOne = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.findOne({
+		owner:Data.owner,
+		isDefault:true,
 	}, function(err, data){
 		if(err){
 			callback(err, null);

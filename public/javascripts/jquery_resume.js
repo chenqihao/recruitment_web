@@ -22,7 +22,7 @@ function resumeModSubmit(){
 		third_forlang:$(".select_third_forlang option:selected").val()+$(".select_third_proficiency option:selected").val(),
 		education:$(".select_education option:selected").val(),
 		school:$("#resume_school").val(),
-		major:$("#resume_major").val(),
+		offername:$("#resume_offername").val(),
 		pro_courses:$("#textarea_pro_courses").val(),
 		pro_ability:$("#textarea_pro_ability").val(),
 		self_evaluation:$("#textarea_self_evaluation").val(),

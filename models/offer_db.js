@@ -14,7 +14,7 @@ var offerSchema = new Schema({
 		type:String,
 		required:[true, '职位名不能为空'],
 		trim:true,
-		maxlength:[8, '职位名不能超过八个字'],
+		maxlength:[18, '职位名不能超过十八个字'],
 	},
 	editdate:{
 		type:Date,
@@ -479,6 +479,20 @@ exports.findByResumeId = function(reqData, callback){
 		'offername':1,
 		'companyname':1,
 		'deliverer.$':1,
+	}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
+};
+
+exports.findByCondition = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.find(Data, {
+		rejected_reason:0,
+		deliverer:0,
 	}, function(err, data){
 		if(err){
 			callback(err, null);

@@ -168,7 +168,7 @@
         <ul class="list_title">
           <li class="list_title_column">姓名</li>
           <li class="list_title_column_small">学历</li>
-          <li class="list_title_column">院校专业</li>
+          <li class="list_title_column">院校</li>
           <li class="list_title_column_small">工作经验</li>
           <li class="list_title_column_small">居住地</li>
         </ul>
@@ -177,7 +177,7 @@
           <input type="hidden" class="hidden_resumeId" value="<%= resumeList[i]._id %>" disabled="disabled">
           <li class="list_column"><a href="/<%= userdata.usertype %>/resume_browse?_id=<%= resumeList[i]._id %>"><%= resumeList[i].realname %></a></li>
           <li class="list_column_small"><% if(resumeList[i].education == 11){ %>博士研究生<% }else if(resumeList[i].education == 12){ %>博士研究生结业<% }else if(resumeList[i].education == 13){ %>博士研究生肄业<% }else if(resumeList[i].education == 14){ %>硕士研究生<% }else if(resumeList[i].education == 15){ %>硕士研究生结业<% }else if(resumeList[i].education == 16){ %>硕士研究生肄业<% }else if(resumeList[i].education == 17){ %>研究生班<% }else if(resumeList[i].education == 18){ %>研究生班结业<% }else if(resumeList[i].education == 19){ %>研究生班肄业<% }else if(resumeList[i].education == 20){ %>大学本科<% }else if(resumeList[i].education == 21){ %>大学本科结业<% }else if(resumeList[i].education == 22){ %>大学本科肄业<% }else if(resumeList[i].education == 23){ %>大学普通班<% }else if(resumeList[i].education == 24){ %>大学专科<% }else if(resumeList[i].education == 25){ %>大学专科结业<% }else if(resumeList[i].education == 26){ %>大学专科肄业<% }else if(resumeList[i].education == 27){ %>高职<% }else if(resumeList[i].education == 28){ %>高职结业<% }else if(resumeList[i].education == 29){ %>高职肄业<% }else if(resumeList[i].education == 30){ %>中等专科<% }else if(resumeList[i].education == 31){ %>中等专科结业<% }else if(resumeList[i].education == 32){ %>中等专科肄业<% } %></li>
-          <li class="list_column"><%= resumeList[i].school %>-<%= resumeList[i].major %></li>
+          <li class="list_column"><%= resumeList[i].school %></li>
           <li class="list_column_small"><% if(resumeList[i].experience == 0){ %>无<%}else{%><%=resumeList[i].experience%>年<%}%></li>
           <li class="list_column_small"><%= resumeList[i].location_str %></li>
         </ul>

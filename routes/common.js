@@ -308,9 +308,32 @@ function offerRecommend(owner, callback){
 							}
 							if(maxSalary == minSalary){
 								score += 0.125;
+							}else if(resumeData.salary[0] == resumeData.salary[1] && searchData[k].salary[0] != searchData[k].salary[1]){
+								score += 0.125*(1-(Math.pow(searchData[k].salary[0]-resumeData.salary[0], 2)+
+									Math.pow(searchData[k].salary[1]-resumeData.salary[0], 2))/
+								(searchData[k].salary[1]-searchData[k].salary[0])/
+								(maxSalary-minSalary)/2);
+							}else if(searchData[k].salary[0] == searchData[k].salary[1]){
+								score += 0.125*(1-(Math.pow(searchData[k].salary[0]-resumeData.salary[0], 2)+
+									Math.pow(searchData[k].salary[0]-resumeData.salary[1], 2))/
+								(resumeData.salary[1]-resumeData.salary[0])/
+								(maxSalary-minSalary)/2);
 							}else{
-								// console.log(0.125*Math.sqrt(Math.pow(searchData[k].salary[0]-resumeData.salary[0], 2)+Math.pow(searchData[k].salary[1]-resumeData.salary[1], 2))/(maxSalary-minSalary));
-								score += 0.125*Math.sqrt(Math.pow(searchData[k].salary[0]-resumeData.salary[0], 2)+Math.pow(searchData[k].salary[1]-resumeData.salary[1], 2))/(maxSalary-minSalary);
+								score += 0.125*(1-(Math.pow(Math.abs(resumeData.salary[0]-searchData[k].salary[1]), 3)+
+									Math.pow(Math.abs(resumeData.salary[1]-searchData[k].salary[0]), 3)-
+									Math.pow(Math.abs(resumeData.salary[0]-searchData[k].salary[0]), 3)-
+									Math.pow(Math.abs(resumeData.salary[1]-searchData[k].salary[1]), 3))/
+								(resumeData.salary[1]-resumeData.salary[0])/
+								(searchData[k].salary[1]-searchData[k].salary[0])/
+								(maxSalary-minSalary)/6);
+								// console.log(searchData[k].offername);
+								// console.log((1-(Math.pow(Math.abs(resumeData.salary[0]-searchData[k].salary[1]), 3)+
+								// 	Math.pow(Math.abs(resumeData.salary[1]-searchData[k].salary[0]), 3)-
+								// 	Math.pow(Math.abs(resumeData.salary[0]-searchData[k].salary[0]), 3)-
+								// 	Math.pow(Math.abs(resumeData.salary[1]-searchData[k].salary[1]), 3))/
+								// (resumeData.salary[1]-resumeData.salary[0])/
+								// (searchData[k].salary[1]-searchData[k].salary[0])/
+								// (maxSalary-minSalary)/6));
 							}
 							score += 0.025*searchData[k].need_number/maxNeedNumber;
 							score += 0.025*searchData[k].company_description.length/maxCompany_description;
@@ -467,9 +490,25 @@ function resumeRecommend(owner, callback){
 							}
 							if(maxSalary == minSalary){
 								score += 0.125;
+							}else if(offerData.salary[0] == offerData.salary[1] && searchData[k].salary[0] != searchData[k].salary[1]){
+								score += 0.125*(1-(Math.pow(searchData[k].salary[0]-offerData.salary[0], 2)+
+									Math.pow(searchData[k].salary[1]-offerData.salary[0], 2))/
+								(searchData[k].salary[1]-searchData[k].salary[0])/
+								(maxSalary-minSalary)/2);
+							}else if(searchData[k].salary[0] == searchData[k].salary[1]){
+								score += 0.125*(1-(Math.pow(searchData[k].salary[0]-offerData.salary[0], 2)+
+									Math.pow(searchData[k].salary[0]-offerData.salary[1], 2))/
+								(offerData.salary[1]-offerData.salary[0])/
+								(maxSalary-minSalary)/2);
 							}else{
 								// console.log(0.125*Math.sqrt(Math.pow(searchData[k].salary[0]-offerData.salary[0], 2)+Math.pow(searchData[k].salary[1]-offerData.salary[1], 2))/(maxSalary-minSalary));
-								score += 0.125*Math.sqrt(Math.pow(searchData[k].salary[0]-offerData.salary[0], 2)+Math.pow(searchData[k].salary[1]-offerData.salary[1], 2))/(maxSalary-minSalary);
+								score += 0.125*(1-(Math.pow(Math.abs(offerData.salary[0]-searchData[k].salary[1]), 3)+
+									Math.pow(Math.abs(offerData.salary[1]-searchData[k].salary[0]), 3)-
+									Math.pow(Math.abs(offerData.salary[0]-searchData[k].salary[0]), 3)-
+									Math.pow(Math.abs(offerData.salary[1]-searchData[k].salary[1]), 3))/
+								(offerData.salary[1]-offerData.salary[0])/
+								(searchData[k].salary[1]-searchData[k].salary[0])/
+								(maxSalary-minSalary)/6);
 							}
 							score += 0.025*((searchData[k].first_forlang[0]==0)?0:searchData[k].first_forlang[1]+(searchData[k].second_forlang[0]==0)?0:searchData[k].second_forlang[1]+(searchData[k].third_forlang[0]==0)?0:searchData[k].third_forlang[1])/maxForlang;
 							score += 0.025*searchData[k].pro_courses.length/maxPro_courses;

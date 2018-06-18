@@ -131,16 +131,20 @@ var resumeSchema = new Schema({
 		maxlength:[18, '期望职位不能超过十八个字'],
 	},
 	pro_courses:{
-		type:String
+		type:String,
+		required:[true, '请输入专业课程'],
 	},
 	pro_ability:{
-		type:String
+		type:String,
+		required:[true, '请输入专业能力'],
 	},
 	self_evaluation:{
-		type:String
+		type:String,
+		required:[true, '请输入个人评价'],
 	},
 	rewards_punishments:{
-		type:String
+		type:String,
+		required:[true, '请输入奖惩情况'],
 	},
 	deliverer:{
 		type:[{
@@ -490,6 +494,19 @@ exports.findDefaultOne = function(reqData, callback){
 	resumeModel.findOne({
 		owner:Data.owner,
 		isDefault:true,
+	}, function(err, data){
+		if(err){
+			callback(err, null);
+		}else {
+			callback(null, data);
+		}
+	});
+};
+
+exports.findByCondition = function(reqData, callback){
+	var Data = reqData.Data;
+	resumeModel.find(Data, {
+		deliverer:0,
 	}, function(err, data){
 		if(err){
 			callback(err, null);

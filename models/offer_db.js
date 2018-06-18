@@ -501,3 +501,18 @@ exports.findByCondition = function(reqData, callback){
 		}
 	});
 };
+
+exports.findRandomOne = function(reqData, callback){
+	var Data = reqData.Data;
+	offerModel.find({
+		owner:Data.owner,
+		isApproved:true,
+	}, function(err, resData){
+		if(err){
+			callback(err, null);
+		}else {
+			data = resData[Math.floor(Math.random() * resData.length)];
+			callback(null, data);
+		}
+	});
+};

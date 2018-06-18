@@ -25,7 +25,7 @@
     </div>
     <div class="nav_bar">
       <div class="nav_bar_blank"></div>
-      <div class="nav_bar_select redirect_infocheck_button">信息审核</div>
+      <div class="nav_bar_select redirect_infocheck_button" style="border:0; border-bottom:2px solid white; color:white;">信息审核</div>
       <div class="nav_bar_slide_box">
         <div class="nav_bar_select nav_bar_slide_select redirect_offer_infocheck_button admin_infocheck">职位审核</div>
         <div class="nav_bar_select nav_bar_slide_select redirect_reg_infocheck_button admin_infocheck">注册审核</div>
@@ -48,7 +48,7 @@
         <ul class="list_row">
           <li class="list_column"><a><%= registerList[i].companyname %></a></li>
           <li class="list_column"><a><%= registerList[i].representative %></a></li>
-          <li class="list_column"><a style="font-size: 14px;"><%= registerList[i].address %></a></li>
+          <li class="list_column"><a style="font-size: 14px;"><% if(registerList[i].companytype == '1'){ %>国企<% }else if(registerList[i].companytype == '2'){ %>事业单位<% }else if(registerList[i].companytype == '3'){ %>上市公司<% }else if(registerList[i].companytype == '4'){ %>民营公司<% }else if(registerList[i].companytype == '5'){ %>外资<% } %></a></li>
           <li class="list_column">
             <a class="opt_click" onclick="toRegApprove('<%= registerList[i].username %>')">通过</a>
             <a style="color: black">|</a>
